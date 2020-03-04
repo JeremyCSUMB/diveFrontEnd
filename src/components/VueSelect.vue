@@ -1,6 +1,6 @@
 <template>
     <div id="select">
-        <h1>Select ROV</h1>
+        <h1>ROV Name</h1>
         <v-select :options="options"></v-select>
         <h1>ROV Number</h1>
     </div>
