@@ -10,11 +10,14 @@
   },
   "dependencies": {
     "bootstrap": "^4.4.1",
+    "chart.js": "^2.9.3",
     "core-js": "^3.6.4",
     "google-maps-api-loader": "^1.1.1",
     "jquery": "^3.4.1",
     "popper.js": "^1.16.1",
     "vue": "^2.6.11",
+    "vue-chartjs": "^3.5.0",
+    "vue-morris": "^1.1.0",
     "vue-router": "^3.1.5",
     "vue-select": "^3.5.1",
     "vue2-google-maps": "^0.10.7"
@@ -70,5 +73,11 @@
   ],
   "jest": {
     "preset": "@vue/cli-plugin-unit-jest"
+  },
+  "resolve": {
+    "alias": {
+      "vue$": "vue/dist/vue.common.js",
+      "jquery": "jquery/src/jquery.js"
+    }
   }
 }

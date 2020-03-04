@@ -2,7 +2,8 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Search</router-link> |
-      <router-link to="/Map">Map</router-link>
+      <router-link to="/Map">Map</router-link> |
+      <router-link to="/chart">Chart</router-link>
     </div>
     <router-view/>
   </div>
