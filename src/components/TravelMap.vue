@@ -1,7 +1,7 @@
 <template>
   <GoogleMapLoader
     :mapConfig='mapConfig'
-    apiKey
+    apiKey='KEY'
   >// insert your google maps api key to render styled map
     <template slot-scope='{ google, map }'>
       <GoogleMapMarker
@@ -36,44 +36,44 @@ export default {
     GoogleMapLine
   },
 
-  data() {
+  data () {
     return {
       markers: [
         {
           id: 'a',
-          position: { lat: 3, lng: 101 }
+          position: { lat: 36.865947, lng: -122.091005 }
         },
         {
           id: 'b',
-          position: { lat: 5, lng: 99 }
+          position: { lat: 36.865945, lng: -122.091003 }
         },
         {
           id: 'c',
-          position: { lat: 6, lng: 97 }
+          position: { lat: 36.865943, lng: -122.091014 }
         }
       ],
       lines: [
         {
           id: '1',
-          path: [{ lat: 3, lng: 101 }, { lat: 5, lng: 99 }]
+          path: [{ lat: 36.865947, lng: -122.091005 }, { lat: 36.865945, lng: -122.091003 }]
         },
         {
           id: '2',
-          path: [{ lat: 5, lng: 99 }, { lat: 6, lng: 97 }]
+          path: [{ lat: 36.865945, lng: -122.091003 }, { lat: 36.865943, lng: -122.091014 }]
         }
       ]
     }
   },
 
   computed: {
-    mapConfig() {
+    mapConfig () {
       return {
         ...mapSettings,
         center: this.mapCenter
       }
     },
 
-    mapCenter() {
+    mapCenter () {
       return this.markers[1].position
     }
   }

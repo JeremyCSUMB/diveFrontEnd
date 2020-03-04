@@ -17,9 +17,10 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     const { Marker } = this.google.maps
 
+    // eslint-disable-next-line no-new
     new Marker({
       position: this.marker.position,
       marker: this.marker,
@@ -28,6 +29,7 @@ export default {
     })
   },
 
-  render() {}
+  // eslint-disable-next-line vue/require-render-return
+  render () {}
 }
 </script>
