@@ -8,10 +8,8 @@
 <script>
 export default {
   name: 'SearchBar',
-  data: function () {
-    return {
-      message: 'Dive Number #'
-    }
+  props: {
+    message: String
   }
 }
 </script>
