@@ -1,6 +1,6 @@
 <template>
     <div id="select">
-        <h1>Vue Select</h1>
+        <h1>Select ROV</h1>
         <v-select :options="options"></v-select>
     </div>
 </template>

@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <TravelMap class='travel-map'/>
   </div>
@@ -6,7 +7,7 @@
 
 <script>
 import TravelMap from '@/components/TravelMap'
-
+require('bootstrap')
 export default {
   name: 'Map',
   components: {
