@@ -36,7 +36,7 @@ export default {
     GoogleMapLine
   },
 
-  data() {
+  data () {
     return {
       markers: [
         {
@@ -66,14 +66,14 @@ export default {
   },
 
   computed: {
-    mapConfig() {
+    mapConfig () {
       return {
         ...mapSettings,
         center: this.mapCenter
       }
     },
 
-    mapCenter() {
+    mapCenter () {
       return this.markers[1].position
     }
   }

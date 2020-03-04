@@ -17,8 +17,9 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     const { Polyline } = this.google.maps
+    // eslint-disable-next-line no-new
     new Polyline({
       path: this.path,
       map: this.map,
@@ -26,6 +27,7 @@ export default {
     })
   },
 
-  render() {},
+  // eslint-disable-next-line vue/require-render-return
+  render () {}
 }
 </script>
