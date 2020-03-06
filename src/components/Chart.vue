@@ -1,5 +1,7 @@
 <template>
   <div class="small">
+    {{$route.params.rovName}}
+    {{$route.params.diveNumber}}
     <line-chart :chart-data="datacollection"></line-chart>
     <button @click="fillData()">Randomize</button>
   </div>
@@ -7,6 +9,7 @@
 
 <script>
 import LineChart from '../constants/LineChart.js'
+import axios from 'axios'
 
 export default {
   components: {
@@ -14,16 +17,26 @@ export default {
   },
   data () {
     return {
-      datacollection: null
+      datacollection: null,
+      lat: null,
+      long: null
     }
   },
   mounted () {
     this.fillData()
+    // this.renderChart(this.data, { legend: { display: false } })
+  },
+  created: function () {
+    axios
+      .get('http://localhost:8080/annotations/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+      .then(res => {
+        this.lat = res.data
+      })
   },
   methods: {
     fillData () {
       this.datacollection = {
-        labels: [this.getRandomInt(), this.getRandomInt()],
+        labels: [1, 10, 100],
         datasets: [
           {
             label: 'Data',
@@ -45,6 +58,6 @@ export default {
 <style>
   .small {
     max-width: 600px;
-    margin:  150px auto;
+    margin:  50px auto;
   }
 </style>
