@@ -5,7 +5,6 @@
           <v-select :options="options"></v-select>
           <h1>ROV Number</h1>
       </div>
-      {{names}}
   </div>
 </template>
 
@@ -14,14 +13,9 @@ import axios from 'axios'
 import Vue from 'vue'
 import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
-// var names = JSON.parse(
-//   axios
-//     .get('http://localhost:8080/dive/getRovNames')
-//     .then(response => (this.info = response.data))
-// )
 export default {
-  name: 'select',
-  data: function () {
+  name: 'vueSelect',
+  data () {
     return {
       options: []
     }
@@ -30,8 +24,11 @@ export default {
     axios
       .get('http://localhost:8080/dive/getRovNames')
       .then(response => {
-        JSON.parse(JSON.stringify(response.data))
-        console.log(JSON.parse(JSON.stringify(response.data)))
+        var names = JSON.parse(JSON.stringify(response.data))
+        console.log(names)
+        for (var name in names) {
+          this.options.push(names[name])
+        }
       })
   }
 }
