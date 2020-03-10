@@ -6,7 +6,6 @@
 
 <script>
 import axios from 'axios'
-
 export default {
   name: 'app',
   data: function () {
@@ -16,8 +15,8 @@ export default {
   },
   mounted () {
     axios
-      .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-      .then(response => (this.info = response))
+      .get('http://localhost:8080/dive/getRovNames')
+      .then(response => (this.info = response.data))
   }
 }
 </script>

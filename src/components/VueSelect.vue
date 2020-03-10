@@ -1,27 +1,38 @@
 <template>
-    <div id="select">
-        <h1>ROV Name</h1>
-        <v-select :options="options"></v-select>
-        <h1>ROV Number</h1>
-    </div>
+  <div>
+      <div id="select">
+          <h1>ROV Name</h1>
+          <v-select :options="options"></v-select>
+          <h1>ROV Number</h1>
+      </div>
+      {{names}}
+  </div>
 </template>
 
 <script>
+import axios from 'axios'
 import Vue from 'vue'
 import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
-
+// var names = JSON.parse(
+//   axios
+//     .get('http://localhost:8080/dive/getRovNames')
+//     .then(response => (this.info = response.data))
+// )
 export default {
   name: 'select',
   data: function () {
     return {
-      options: [
-        'Ventana',
-        'Doc Ricketts',
-        'Tiburon',
-        'Mini ROV'
-      ]
+      options: []
     }
+  },
+  created: function () {
+    axios
+      .get('http://localhost:8080/dive/getRovNames')
+      .then(response => {
+        JSON.parse(JSON.stringify(response.data))
+        console.log(JSON.parse(JSON.stringify(response.data)))
+      })
   }
 }
 </script>
