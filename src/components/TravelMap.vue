@@ -37,6 +37,7 @@ export default {
   },
 
   data () {
+    console.log('hello')
     return {
       markers: [
         {
