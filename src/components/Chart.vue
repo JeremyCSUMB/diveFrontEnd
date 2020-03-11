@@ -24,7 +24,6 @@ export default {
   },
   mounted () {
     this.fillData()
-    // this.renderChart(this.data, { legend: { display: false } })
   },
   created: function () {
     axios

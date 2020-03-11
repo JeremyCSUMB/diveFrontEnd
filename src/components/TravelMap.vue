@@ -11,60 +11,57 @@
         :google='google'
         :map='map'
       />
-      <GoogleMapLine
-        v-for='line in lines'
-        :key='line.id'
-        :path.sync='line.path'
-        :google='google'
-        :map='map'
-      />
     </template>
   </GoogleMapLoader>
 </template>
 
 <script>
+import axios from 'axios'
 import GoogleMapLoader from './GoogleMapLoader'
 import GoogleMapMarker from './GoogleMapMarker'
-import GoogleMapLine from './GoogleMapLine'
-
 import { mapSettings } from '@/constants/mapSettings'
 
 export default {
   components: {
     GoogleMapLoader,
-    GoogleMapMarker,
-    GoogleMapLine
+    GoogleMapMarker
   },
-
   data () {
+    var latLong = null
+    axios
+      .get('http://localhost:8080/dive/getlatsandlongs/ventana/4222')
+      .then(response => {
+        latLong = JSON.parse(JSON.stringify(response.data))[0]
+      })
     return {
+      latLong: null,
       markers: [
         {
-          id: 'a',
-          position: { lat: 36.865947, lng: -122.091005 }
-        },
-        {
-          id: 'b',
-          position: { lat: 36.865945, lng: -122.091003 }
-        },
-        {
-          id: 'c',
-          position: { lat: 36.865943, lng: -122.091014 }
+          position: { lat: 36.8044, lng: -121.7869 }
         }
       ],
-      lines: [
-        {
-          id: '1',
-          path: [{ lat: 36.865947, lng: -122.091005 }, { lat: 36.865945, lng: -122.091003 }]
-        },
-        {
-          id: '2',
-          path: [{ lat: 36.865945, lng: -122.091003 }, { lat: 36.865943, lng: -122.091014 }]
-        }
-      ]
+      center: latLong
     }
   },
-
+  methods: {
+    setCenter: function (latitude, longitude) {
+      this.center = { lat: latitude, lng: longitude }
+    }
+  },
+  created: function () {
+    axios
+      .get('http://localhost:8080/dive/getlatsandlongs/ventana/4222')
+      .then(response => {
+        var latLong = JSON.parse(JSON.stringify(response.data))
+        for (var i = 0; i < latLong.length; i += 100) {
+          const marker = {
+            lat: parseFloat(latLong[i].longitude),
+            lng: parseFloat(latLong[i].latitude)
+          }
+          this.markers.push({ id: i, position: marker })
+        }
+      })
+  },
   computed: {
     mapConfig () {
       return {
@@ -72,9 +69,8 @@ export default {
         center: this.mapCenter
       }
     },
-
     mapCenter () {
-      return this.markers[1].position
+      return this.markers[0].position
     }
   }
 }
