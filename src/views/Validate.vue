@@ -1,18 +1,14 @@
 <template>
-  <div>
     <CheckDive/>
-    <VideoView/>
-  </div>
 </template>
 
 <script>
 
-import VideoView from '@/components/VideoView.vue'
 import CheckDive from '@/components/CheckDive.vue'
+
 export default {
-  name: 'Video',
+  name: 'Validate',
   components: {
-    VideoView,
     CheckDive
   }
 }

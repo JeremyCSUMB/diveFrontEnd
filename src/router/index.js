@@ -25,6 +25,11 @@ const routes = [
     path: '/video/:rovName/:diveNumber',
     name: 'Video',
     component: Video
+  },
+  {
+    path: '/validate/:rovName/:diveNumber',
+    name: 'Validate',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Validate.vue')
   }
 ]
 
