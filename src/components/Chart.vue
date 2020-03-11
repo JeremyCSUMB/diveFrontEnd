@@ -2,8 +2,8 @@
   <div class="small">
     {{$route.params.rovName}}
     {{$route.params.diveNumber}}
-    <line-chart :chart-data="datacollection"></line-chart>
-    <button @click="fillData()">Randomize</button>
+    <line-chart v-if="loaded" :chartData="chartData" :options="options"></line-chart>
+    <!-- <button @click="fillData()">Randomize</button> -->
   </div>
 </template>
 
@@ -17,32 +17,50 @@ export default {
   },
   data () {
     return {
-      datacollection: null,
-      lat: null,
-      long: null
+      loaded: false,
+      chartdata: null,
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              reverse: true
+            }
+          }]
+        }
+      }
     }
   },
-  mounted () {
+  async mounted () {
     this.fillData()
   },
   created: function () {
-    axios
-      .get('http://localhost:8080/annotations/ventana/4222')
-      .then(res => {
-        this.lat = res.data
-      })
+    axios.all([
+      axios.get('http://localhost:8080/dive/gethouranddepth/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
+      axios.get('http://localhost:8080/dive/getminanddepth/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+    ])
+      .then(axios.spread((hourResponse, minResponse) => {
+        var hourRes = JSON.parse(JSON.stringify(hourResponse.data))
+        var minRes = JSON.parse(JSON.stringify(minResponse.data))
+        for (var i = 0; i < hourRes.length; i += 100) {
+          var hour = parseInt(hourRes[i].hour).toString()
+          var minute = parseInt(minRes[i].minute).toString()
+          this.chartData.labels.push(hour.concat(':' + minute.padStart(2, '0')))
+          this.chartData.datasets[0].data.push(parseFloat(hourRes[i].depth))
+        }
+        this.loaded = true
+      }))
   },
   methods: {
     fillData () {
-      this.datacollection = {
-        labels: [1, 10, 100],
+      this.chartData = {
+        labels: [],
         datasets: [
           {
             label: 'Data',
             fill: 'false',
             backgroundColor: 'cornflowerblue',
             borderColor: 'cornflowerblue',
-            data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
+            data: []
           }
         ]
       }
@@ -57,6 +75,5 @@ export default {
 <style>
   .small {
     max-width: 600px;
-    margin:  50px auto;
   }
 </style>
