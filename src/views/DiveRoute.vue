@@ -11,7 +11,7 @@ import Chart from '@/components/Chart.vue'
 
 require('bootstrap')
 export default {
-  name: 'Dive Route',
+  name: 'DiveRoute',
   components: {
     TravelMap,
     Chart

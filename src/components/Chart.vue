@@ -28,7 +28,7 @@ export default {
   },
   created: function () {
     axios
-      .get('http://localhost:8080/annotations/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+      .get('http://localhost:8080/annotations/ventana/4222')
       .then(res => {
         this.lat = res.data
       })
