@@ -36,11 +36,6 @@ export default {
       ]
     }
   },
-  methods: {
-    setCenter: function (latitude, longitude) {
-      this.center = { lat: latitude, lng: longitude }
-    }
-  },
   created: function () {
     axios
       .get('http://localhost:8080/annotations/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
