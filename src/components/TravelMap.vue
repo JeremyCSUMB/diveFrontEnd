@@ -27,20 +27,13 @@ export default {
     GoogleMapMarker
   },
   data () {
-    var latLong = null
-    axios
-      .get('http://localhost:8080/dive/getlatsandlongs/ventana/4222')
-      .then(response => {
-        latLong = JSON.parse(JSON.stringify(response.data))[0]
-      })
     return {
       latLong: null,
       markers: [
         {
           position: { lat: 36.8044, lng: -121.7869 }
         }
-      ],
-      center: latLong
+      ]
     }
   },
   methods: {
@@ -50,7 +43,7 @@ export default {
   },
   created: function () {
     axios
-      .get('http://localhost:8080/dive/getlatsandlongs/ventana/4222')
+      .get('http://localhost:8080/annotations/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
       .then(response => {
         var latLong = JSON.parse(JSON.stringify(response.data))
         for (var i = 0; i < latLong.length; i += 100) {

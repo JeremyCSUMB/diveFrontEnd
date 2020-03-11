@@ -14,7 +14,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Search.vue')
   },
   {
-    path: '/diveRoute',
+    path: '/diveRoute/:rovName/:diveNumber',
     name: 'DiveRoute',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
