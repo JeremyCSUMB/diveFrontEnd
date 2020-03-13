@@ -2,8 +2,11 @@
   <div>
       <div id="select">
           <h1>ROV Name</h1>
-          <v-select :options="options"></v-select>
+          <v-select :options="options" :value="value" @input="setRov"></v-select>
           <h1>ROV Number</h1>
+          <p>{{ message }}</p>
+          <input id="txtName" @input="addMessage" v-model="txtInput" type="text">
+          <button v-on:click="submitData()">Submit</button>
       </div>
   </div>
 </template>
@@ -15,9 +18,13 @@ import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
 export default {
   name: 'vueSelect',
+  props: {
+    value: String
+  },
   data () {
     return {
-      options: []
+      options: [],
+      txtInput: ''
     }
   },
   created: function () {
@@ -30,6 +37,18 @@ export default {
           this.options.push(names[name])
         }
       })
+  },
+  methods: {
+    addMessage () {
+      console.log(this.txtInput)
+    },
+    setRov (value) {
+      this.value = value
+      console.log(this.value)
+    },
+    submitData () {
+      this.$router.push('DiveRoute/' + this.value + '/' + this.txtInput)
+    }
   }
 }
 </script>

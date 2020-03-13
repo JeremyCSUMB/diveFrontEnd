@@ -1,15 +1,22 @@
 <template>
     <div class="search">
         <p>{{ message }}</p>
-        <input v-model="message">
+        <input id="txtName" @keyup.enter="addMessage" v-model="txtInput" type="text">
     </div>
 </template>
 
 <script>
 export default {
-  name: 'validate',
-  props: {
-    message: String
+  name: 'search',
+  data: function () {
+    return {
+      txtInput: ''
+    }
+  },
+  methods: {
+    addMessage () {
+      console.log(this.txtInput)
+    }
   }
 }
 </script>
