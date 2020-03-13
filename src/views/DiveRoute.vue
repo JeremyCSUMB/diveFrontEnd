@@ -2,6 +2,7 @@
   <div>
     <TravelMap class='travel-map'/>
     <Chart class='chart'/>
+    <button v-on:click="submitData()">Submit</button>
   </div>
 </template>
 
@@ -15,6 +16,11 @@ export default {
   components: {
     TravelMap,
     Chart
+  },
+  methods: {
+    submitData () {
+      this.$router.push('/video/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+    }
   }
 }
 </script>

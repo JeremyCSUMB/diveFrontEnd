@@ -4,8 +4,8 @@
           <h1>ROV Name</h1>
           <v-select :options="options" :value="value" @input="setRov"></v-select>
           <h1>ROV Number</h1>
-          <p>{{ message }}</p>
           <input id="txtName" @input="addMessage" v-model="txtInput" type="text">
+          <br>
           <button v-on:click="submitData()">Submit</button>
       </div>
   </div>

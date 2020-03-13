@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Search</router-link> |
-      <router-link to="/DiveRoute">Dive Route</router-link>
+      <router-link to="/">Search</router-link>
     </div>
     <router-view/>
   </div>
