@@ -2,6 +2,8 @@
   <div class="small">
     {{$route.params.rovName}}
     {{$route.params.diveNumber}}
+    <br>
+    {{date}}
     <line-chart v-if="loaded" :chartData="chartData" :options="options"></line-chart>
     <!-- <button @click="fillData()">Randomize</button> -->
   </div>
@@ -17,6 +19,7 @@ export default {
   },
   data () {
     return {
+      date: null,
       loaded: false,
       chartdata: null,
       options: {
@@ -35,13 +38,19 @@ export default {
   },
   created: function () {
     axios.all([
-      axios.get('http://localhost:8080/dive/gethouranddepth/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
-      axios.get('http://localhost:8080/dive/getminanddepth/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+      axios.get('http://localhost:8080/dive/getHourAndDepth/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
+      axios.get('http://localhost:8080/dive/getMinAndDepth/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
+      axios.get('http://localhost:8080/dive/getDiveDates/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
     ])
-      .then(axios.spread((hourResponse, minResponse) => {
+      .then(axios.spread((hourResponse, minResponse, dateResponse) => {
         var hourRes = JSON.parse(JSON.stringify(hourResponse.data))
         var minRes = JSON.parse(JSON.stringify(minResponse.data))
-        for (var i = 0; i < hourRes.length; i += 100) {
+        var dateRes = JSON.parse(JSON.stringify(dateResponse.data))
+        this.date = dateRes.startDate
+        if (dateRes.startDate !== dateRes.endDate) {
+          this.date += ' - ' + dateRes.endDate
+        }
+        for (var i = 0; i < hourRes.length; i += 20) {
           var hour = parseInt(hourRes[i].hour).toString()
           var minute = parseInt(minRes[i].minute).toString()
           this.chartData.labels.push(hour.concat(':' + minute.padStart(2, '0')))
@@ -64,9 +73,6 @@ export default {
           }
         ]
       }
-    },
-    getRandomInt () {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5
     }
   }
 }
