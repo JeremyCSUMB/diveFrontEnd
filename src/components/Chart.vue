@@ -5,7 +5,6 @@
     <br>
     {{date}}
     <line-chart v-if="loaded" :chartData="chartData" :options="options"></line-chart>
-    <!-- <button @click="fillData()">Randomize</button> -->
   </div>
 </template>
 
@@ -27,6 +26,16 @@ export default {
           yAxes: [{
             ticks: {
               reverse: true
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Depth'
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Time (UTC)'
             }
           }]
         }
@@ -50,7 +59,7 @@ export default {
         if (dateRes.startDate !== dateRes.endDate) {
           this.date += ' - ' + dateRes.endDate
         }
-        for (var i = 0; i < hourRes.length; i += 20) {
+        for (var i = 0; i < hourRes.length; i += 35) {
           var hour = parseInt(hourRes[i].hour).toString()
           var minute = parseInt(minRes[i].minute).toString()
           this.chartData.labels.push(hour.concat(':' + minute.padStart(2, '0')))
