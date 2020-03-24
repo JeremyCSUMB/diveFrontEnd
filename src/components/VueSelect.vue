@@ -7,6 +7,7 @@
           <input id="txtName" @input="addMessage" v-model="txtInput" type="text">
           <br>
           <button v-on:click="submitData()">Submit</button>
+          <p>{{ valid[0] }}</p>
       </div>
   </div>
 </template>
@@ -23,6 +24,7 @@ export default {
   },
   data () {
     return {
+      valid: [],
       options: [],
       txtInput: ''
     }
@@ -47,7 +49,17 @@ export default {
       console.log(this.value)
     },
     submitData () {
-      this.$router.push('DiveRoute/' + this.value + '/' + this.txtInput)
+      axios
+        .get('http://localhost:8080/dive/checkDiveNumber/' + this.value + '/' + this.txtInput)
+        .then(response => {
+          var val = JSON.parse(JSON.stringify(response.data))
+          console.log(val)
+          if (!val.exists) {
+            this.valid.push('ERROR: Dive does not exist!')
+          } else {
+            this.$router.push('DiveRoute/' + this.value + '/' + this.txtInput)
+          }
+        })
     }
   }
 }
