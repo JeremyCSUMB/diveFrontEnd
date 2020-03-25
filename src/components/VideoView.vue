@@ -21,8 +21,19 @@
           </div>
           <div v-else v-for="(observation, index) in annotations" :key="index" v-on:click="displayAncillaryData($event)" v-bind:id="setAnnotationId(observation)" class="annotationCard">
               <div class="annotation">
-                <h4><b>Concept: {{observation.concept}}</b></h4>
-                <p>Observer: {{observation.observer}}</p>
+                <h4><b><u>Concept: {{observation.concept}}</u></b></h4>
+                <div v-if = "observation.ancillary_data === undefined" class="ancillarydata">
+                  <p class="ancillaryitem"> Depth: - </p>
+                  <p class="ancillaryitem"> Timestamp: {{observation.observation_timestamp}}</p>
+                  <p class="ancillaryitem"> Oxygen: - </p>
+                  <p class="ancillaryitem"> Salinity: - </p>
+                </div>
+                <div v-else class="ancillarydata">
+                   <p class="ancillaryitem"> Depth: {{observation.ancillary_data.depth_meters}} </p>
+                   <p class="ancillaryitem"> Timestamp: {{observation.observation_timestamp}}</p>
+                   <p class="ancillaryitem"> Oxygen: {{observation.ancillary_data.oxygen_ml_l}} </p>
+                   <p class="ancillaryitem"> Salinity: {{observation.ancillary_data.salinity}} </p>
+                </div>
               </div>
           </div>
         </div>
@@ -200,6 +211,7 @@ export default {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   cursor: pointer;
+  padding-top: .6em;
 }
 
 #annotations {
@@ -208,5 +220,17 @@ export default {
 
 .active {
   background-color: yellow;
+}
+
+.ancillarydata {
+  content: "";
+  display: table;
+  clear: both;
+  width: 100%;
+}
+
+.ancillaryitem {
+  float: left;
+  width: 50%;
 }
 </style>
