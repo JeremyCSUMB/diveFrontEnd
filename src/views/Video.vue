@@ -2,7 +2,7 @@
   <div>
     <CheckDive/>
     <VideoView/>
-    <AncillaryChart class='chart'/>
+    <AnnotationChart class='chart'/>
   </div>
 </template>
 
@@ -10,14 +10,14 @@
 
 import VideoView from '@/components/VideoView.vue'
 import CheckDive from '@/components/CheckDive.vue'
-import AncillaryChart from '@/components/AncillaryChart.vue'
+import AnnotationChart from '@/components/AnnotationChart.vue'
 
 export default {
   name: 'Video',
   components: {
     VideoView,
     CheckDive,
-    AncillaryChart
+    AnnotationChart
   }
 }
 

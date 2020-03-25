@@ -59,7 +59,8 @@ export default {
     this.fillData()
   },
   created: function () {
-    axios.get('http://localhost:8080/dive/getCTD/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+    axios
+      .get('http://localhost:8080/dive/getCTD/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
       .then((response) => {
         var res = JSON.parse(JSON.stringify(response.data))
         for (var i = 0; i < res.length; i += 75) {
