@@ -1,16 +1,19 @@
 <template>
   <div>
     <TravelMap class='travel-map'/>
-    <FullAncillaryChart class='chart'/>
-    <Chart class='chart'/>
-    <button v-on:click="submitData()">Submit</button>
+    <button v-on:click="submitData()">View video</button>
+    <br>
+    <AncillaryChart class='AncillaryChart'/>
+    <AnnotationChart class='AnnotationChart'/>
+    <Chart class='Chart'/>
   </div>
 </template>
 
 <script>
 import TravelMap from '@/components/TravelMap'
 import Chart from '@/components/Chart.vue'
-import FullAncillaryChart from '@/components/FullAncillaryChart.vue'
+import AncillaryChart from '@/components/AncillaryChart.vue'
+import AnnotationChart from '@/components/AnnotationChart.vue'
 
 require('bootstrap')
 export default {
@@ -18,7 +21,8 @@ export default {
   components: {
     TravelMap,
     Chart,
-    FullAncillaryChart
+    AncillaryChart,
+    AnnotationChart
   },
   methods: {
     submitData () {
@@ -31,11 +35,7 @@ export default {
 <style lang='scss' scoped>
 .travel-map {
   height: 650px;
-  width: 60%;
+  width: 100%;
   float: left;
-}
-.chart {
-  width: 35%;
-  float: right;
 }
 </style>
