@@ -10,24 +10,17 @@
 <script>
 
 import VideoView from '@/components/VideoView.vue'
+import AncillaryChart from '@/components/AncillaryChart.vue'
 export default {
   name: 'Video',
   components: {
-    VideoView
+    VideoView,
+    AncillaryChart
   },
   methods: {
     goBack () {
       this.$router.go(-1)
     }
-import CheckDive from '@/components/CheckDive.vue'
-import AncillaryChart from '@/components/AncillaryChart.vue'
-
-export default {
-  name: 'Video',
-  components: {
-    VideoView,
-    CheckDive,
-    AncillaryChart
   }
 }
 
