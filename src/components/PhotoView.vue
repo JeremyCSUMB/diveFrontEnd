@@ -1,26 +1,25 @@
 <template>
-  <div class="photocontainer">
-    <div id="videolinks">
-      Click Timestamp to play video.
-      <!-- <virtual-list :size="40" :remain="8">
-        <li v-for="videoLink in videoLinks" :key="videoLink" v-on:click="playVideo($event)" v-bind:id="videoLink">{{videoData[videoLink]['timestamp']}}</li>
-      </virtual-list> -->
+    <div class="photocontainer">
+        <div id="videolinks">
+            <!-- <virtual-list :size="40" :remain="8">
+                <li v-for="videoLink in videoLinks" :key="videoLink" v-on:click="playVideo($event)" v-bind:id="videoLink">{{videoData[videoLink]['timestamp']}}</li>
+            </virtual-list> -->
+        </div>
+        <div id="photoandannotations" class="photoRow">
+            <div class="photoColumns">
+                <span v-for="photoLink in photoLinks" :key="photoLink">
+                    <img v-bind:id="photoLink" v-bind:src="photoLink" width="33.33%">
+                    <!-- <div>
+                        {{photoData[photoLink]['timestamp']}}
+                    </div> -->
+                </span>
+            </div>
+        </div>
     </div>
-    <!-- <div id="photoandannotations">
-      <video width="90%" ref="videoRef" controls src="" id="video-container"></video><br>
-      Annotations:
-      <div id="annotations"></div>
-        <li v-for="(observation, index) in annotations" :key="index" v-on:click="displayAncillaryData($event)" v-bind:id="index">
-          Concept: {{observation.concept}}
-          Observer: {{observation.observer}}
-        </li>
-      </div> -->
-  </div>
 </template>
 
 <script>
 import axios from 'axios'
-// import virtualList from 'vue-virtual-scroll-list'
 export default {
   name: 'PhotoView',
   data () {
@@ -43,7 +42,8 @@ export default {
         for (var key in this.photoData.mappingObject.photoMapping) {
           this.photoLinks.push(this.photoData.mappingObject.photoMapping[key])
         }
-        this.$refs.videoRef.src = this.photoLinks[0]
+        this.$refs.photoRef.src = this.photoLinks[0]
+        console.log(this.photoLinks)
         // this.annotations = this.videoData[this.videoLinks[0]].annotations
       })
   },
@@ -58,7 +58,6 @@ export default {
     }
   },
   components: {
-    // 'virtual-list': virtualList
   }
 }
 </script>
@@ -69,12 +68,12 @@ export default {
   width: 33.33%;
 }
 
-#videoandannotations {
+.photoColumn {
   float: left;
-  width: 66.66%;
+  width: 33.33%;
 }
 
-.videocontainer:after {
+.photoRow:after {
   content: "";
   display: table;
   clear: both;
