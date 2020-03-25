@@ -3,6 +3,7 @@
     <div id="loadingDiv">
       <img src="../assets/loading.gif">
     </div>
+    <button v-on:click="goBack()">Go Back</button><br><br>
     <div id="videocontainer">
       <div id="videolinks">
         Click Timestamp to play video.<br><br>
@@ -11,6 +12,8 @@
             <p>{{videoData[videoLink]['timestamp']}}</p>
           </div>
         </div>
+        <img src='../assets/upArrow.png' id='arrows' v-on:click="changeSize()"><br><br>
+        <AncillaryChart class='chart'/>
       </div>
       <div id="videoandannotations">
         <video @timeupdate="onTimeUpdateListener" width="90%" ref="videoRef" :emit="['timeupdate']" controls src="" id="video-player"></video><br>
@@ -33,6 +36,7 @@
 
 <script>
 import axios from 'axios'
+import AncillaryChart from '@/components/AncillaryChart.vue'
 export default {
   name: 'VideoView',
   data () {
@@ -138,6 +142,21 @@ export default {
           return current - start
         }
       }
+    },
+    goBack () {
+      this.$router.go(-1)
+    },
+
+    changeSize () {
+      const links = document.getElementById('linksContainer')
+
+      if (links.style.height === '400px') {
+        document.getElementById('arrows').src = require('../assets/downArrow.png')
+        links.style.height = '0px'
+      } else {
+        document.getElementById('arrows').src = require('../assets/upArrow.png')
+        links.style.height = '400px'
+      }
     }
   },
   updated: function () {
@@ -145,6 +164,10 @@ export default {
       document.getElementById(this.videoLinks[0]).classList.add('active')
       this.currentVideo = this.videoLinks[0]
     }
+  },
+
+  components: {
+    AncillaryChart
   }
 }
 </script>
@@ -208,5 +231,11 @@ export default {
 
 .active {
   background-color: yellow;
+}
+
+#arrows {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
 }
 </style>
