@@ -41,7 +41,7 @@ export default {
       .get('http://localhost:8080/dive/getLatsAndLongs/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
       .then(response => {
         var latLong = JSON.parse(JSON.stringify(response.data))
-        for (var i = 0; i < latLong.length; i += 100) {
+        for (var i = 0; i < latLong.length; i += 65) {
           const marker = {
             lat: parseFloat(latLong[i].longitude),
             lng: parseFloat(latLong[i].latitude)
