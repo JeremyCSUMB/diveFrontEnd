@@ -2,7 +2,7 @@
   <div>
     <TravelMap class='travel-map'/>
     <Chart class='chart'/>
-    <button v-on:click="submitData()">Submit</button>
+    <button v-on:click="submitData()">View video</button>
   </div>
 </template>
 
