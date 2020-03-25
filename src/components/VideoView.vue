@@ -19,7 +19,7 @@
           <div v-if = "annotations.length == 0">
             <b>No annotations to display:(</b>
           </div>
-          <div v-else v-for="(observation, index) in annotations" :key="index" v-on:click="displayAncillaryData($event)" v-bind:id="Math.floor(observation.elapsed_time_millis / 1000)" class="annotationCard">
+          <div v-else v-for="(observation, index) in annotations" :key="index" v-on:click="displayAncillaryData($event)" v-bind:id="setAnnotationId(observation)" class="annotationCard">
               <div class="annotation">
                 <h4><b>Concept: {{observation.concept}}</b></h4>
                 <p>Observer: {{observation.observer}}</p>
@@ -51,14 +51,18 @@ export default {
       .then(res => {
         this.videoData = JSON.stringify(res.data)
         this.videoData = JSON.parse(this.videoData)
-        for (var key in this.videoData.mappingObject.videoMapping) {
-          this.videoLinks.push(this.videoData.mappingObject.videoMapping[key])
+        for (var key in this.videoData.videoOrdering) {
+          this.videoLinks.push(this.videoData.videoOrdering[key])
         }
         this.$refs.videoRef.src = this.videoLinks[0]
         this.annotations = this.videoData[this.videoLinks[0]].annotations
         for (key in this.annotations) {
-          if (this.annotations[key].elapsed_time_millis !== null) {
+          if (this.annotations[key].elapsed_time_millis !== undefined) {
             this.annotationsMapByTime[Math.floor(this.annotations[key].elapsed_time_millis / 1000)] = this.annotations[key]
+          } else {
+            const start = Math.floor(parseInt(this.videoData[this.videoLinks[0]].timestamp.split(':')[2]))
+            const current = Math.floor(parseInt(this.videoData[this.videoLinks[0]].annotations[key].recorded_timestamp.split(':')[2]))
+            this.annotationsMapByTime[current - start] = this.annotations[key]
           }
         }
         document.getElementById('container').removeChild(document.getElementById('loadingDiv'))
@@ -75,8 +79,12 @@ export default {
       this.annotations = this.videoData[event.currentTarget.id].annotations
       this.annotationsMapByTime = []
       for (var key in this.annotations) {
-        if (this.annotations[key].elapsed_time_millis !== null) {
+        if (this.annotations[key].elapsed_time_millis !== undefined) {
           this.annotationsMapByTime[Math.floor(this.annotations[key].elapsed_time_millis / 1000)] = this.annotations[key]
+        } else {
+          const start = Math.floor(parseInt(this.videoData[event.currentTarget.id].timestamp.split(':')[2]))
+          const current = Math.floor(parseInt(this.videoData[event.currentTarget.id].annotations[key].recorded_timestamp.split(':')[2]))
+          this.annotationsMapByTime[current - start] = this.annotations[key]
         }
       }
 
@@ -93,27 +101,42 @@ export default {
       } else {
         console.log(this.annotationsMapByTime[event.currentTarget.id].ancillary_data)
       }
-      if (this.currentAnnotation !== null) {
-        document.getElementById(this.currentAnnotation).classList.remove('active')
-      }
-
-      this.currentAnnotation = event.currentTarget.id
-      const annotation = document.getElementById(event.currentTarget.id)
-      annotation.classList.add('active')
-      document.getElementById('video-player').currentTime = this.annotationsMapByTime[event.currentTarget.id].elapsed_time_millis / 1000
+      document.getElementById('video-player').currentTime = event.currentTarget.id
     },
 
     onTimeUpdateListener (event) {
       const time = Math.floor(document.getElementById('video-player').currentTime)
       if (this.annotationsMapByTime[time] !== undefined) {
         const annotation = document.getElementById(time)
-        annotation.scrollIntoView()
 
-        if (this.currentAnnotation !== null) {
-          document.getElementById(this.currentAnnotation).classList.remove('active')
+        for (var index in this.annotationsMapByTime) {
+          document.getElementById(index).className = 'annotationCard'
         }
         annotation.classList.add('active')
         this.currentAnnotation = event.currentTarget.id
+        annotation.scrollIntoView()
+      }
+    },
+
+    setAnnotationId (observation) {
+      if (this.currentVideo === null) {
+        if (observation.elapsed_time_millis !== undefined) {
+          return Math.floor(observation.elapsed_time_millis / 1000)
+        } else {
+          const start = Math.floor(parseInt(this.videoData[this.videoLinks[0]].timestamp.split(':')[2]))
+          const current = Math.floor(parseInt(observation.recorded_timestamp.split(':')[2]))
+
+          return current - start
+        }
+      } else {
+        if (observation.elapsed_time_millis !== undefined) {
+          return Math.floor(observation.elapsed_time_millis / 1000)
+        } else {
+          const start = Math.floor(parseInt(this.videoData[this.currentVideo].timestamp.split(':')[2]))
+          const current = Math.floor(parseInt(observation.recorded_timestamp.split(':')[2]))
+
+          return current - start
+        }
       }
     }
   },
