@@ -1,21 +1,28 @@
 <template>
   <div>
     <TravelMap class='travel-map'/>
-    <Chart class='chart'/>
     <button v-on:click="submitData()">View video</button>
+    <br>
+    <AncillaryChart class='AncillaryChart'/>
+    <AnnotationChart class='AnnotationChart'/>
+    <Chart class='Chart'/>
   </div>
 </template>
 
 <script>
 import TravelMap from '@/components/TravelMap'
 import Chart from '@/components/Chart.vue'
+import AncillaryChart from '@/components/AncillaryChart.vue'
+import AnnotationChart from '@/components/AnnotationChart.vue'
 
 require('bootstrap')
 export default {
   name: 'DiveRoute',
   components: {
     TravelMap,
-    Chart
+    Chart,
+    AncillaryChart,
+    AnnotationChart
   },
   methods: {
     submitData () {
@@ -28,11 +35,7 @@ export default {
 <style lang='scss' scoped>
 .travel-map {
   height: 650px;
-  width: 60%;
+  width: 100%;
   float: left;
-}
-.chart {
-  width: 35%;
-  float: right;
 }
 </style>
