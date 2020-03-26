@@ -3,6 +3,7 @@
     <div id="loadingDiv">
       <img src="../assets/loading.gif">
     </div>
+    <button v-on:click="goBack()">Go Back</button><br><br>
     <div id="videocontainer">
       <div id="videolinks">
         Click Timestamp to play video.<br><br>
@@ -11,6 +12,10 @@
             <p>{{videoData[videoLink]['timestamp']}}</p>
           </div>
         </div>
+        <img src='../assets/upArrow.png' id='arrows' v-on:click="changeSize()"><br><br>
+        <VueSlickCarousel v-bind="settings">
+          <AncillaryChart class='chart'/>
+        </VueSlickCarousel>
       </div>
       <div id="videoandannotations">
         <video @timeupdate="onTimeUpdateListener" width="90%" ref="videoRef" :emit="['timeupdate']" controls src="" id="video-player"></video><br>
@@ -44,10 +49,25 @@
 
 <script>
 import axios from 'axios'
+import AncillaryChart from '@/components/AncillaryChart.vue'
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+
 export default {
   name: 'VideoView',
   data () {
     return {
+      settings: {
+        arrows: true,
+        dots: true,
+        dotsClass: 'slick-dots custom-dot-class',
+        edgeFriction: 0.35,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+      },
       videoLinks: [],
       videoData: null,
       annotations: [],
@@ -149,6 +169,21 @@ export default {
           return current - start
         }
       }
+    },
+    goBack () {
+      this.$router.go(-1)
+    },
+
+    changeSize () {
+      const links = document.getElementById('linksContainer')
+
+      if (links.style.height === '400px') {
+        document.getElementById('arrows').src = require('../assets/downArrow.png')
+        links.style.height = '0px'
+      } else {
+        document.getElementById('arrows').src = require('../assets/upArrow.png')
+        links.style.height = '400px'
+      }
     }
   },
   updated: function () {
@@ -156,6 +191,11 @@ export default {
       document.getElementById(this.videoLinks[0]).classList.add('active')
       this.currentVideo = this.videoLinks[0]
     }
+  },
+
+  components: {
+    AncillaryChart,
+    VueSlickCarousel
   }
 }
 </script>
@@ -222,6 +262,12 @@ export default {
   background-color: yellow;
 }
 
+#arrows {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+
 .ancillarydata {
   content: "";
   display: table;
@@ -233,4 +279,9 @@ export default {
   float: left;
   width: 50%;
 }
+
+.slick-prev:before, .slick-next:before {
+  color: black;
+}
+
 </style>
