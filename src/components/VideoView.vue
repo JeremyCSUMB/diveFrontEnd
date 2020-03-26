@@ -13,7 +13,9 @@
           </div>
         </div>
         <img src='../assets/upArrow.png' id='arrows' v-on:click="changeSize()"><br><br>
-        <AncillaryChart class='chart'/>
+        <VueSlickCarousel v-bind="settings">
+          <AncillaryChart class='chart'/>
+        </VueSlickCarousel>
       </div>
       <div id="videoandannotations">
         <video @timeupdate="onTimeUpdateListener" width="90%" ref="videoRef" :emit="['timeupdate']" controls src="" id="video-player"></video><br>
@@ -48,10 +50,24 @@
 <script>
 import axios from 'axios'
 import AncillaryChart from '@/components/AncillaryChart.vue'
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+
 export default {
   name: 'VideoView',
   data () {
     return {
+      settings: {
+        arrows: true,
+        dots: true,
+        dotsClass: 'slick-dots custom-dot-class',
+        edgeFriction: 0.35,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+      },
       videoLinks: [],
       videoData: null,
       annotations: [],
@@ -178,7 +194,8 @@ export default {
   },
 
   components: {
-    AncillaryChart
+    AncillaryChart,
+    VueSlickCarousel
   }
 }
 </script>
@@ -262,4 +279,9 @@ export default {
   float: left;
   width: 50%;
 }
+
+.slick-prev:before, .slick-next:before {
+  color: black;
+}
+
 </style>
