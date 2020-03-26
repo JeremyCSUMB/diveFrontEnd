@@ -12,14 +12,12 @@
 
 import VideoView from '@/components/VideoView.vue'
 import AnnotationChart from '@/components/AnnotationChart.vue'
-// import CheckDive from '@/components/CheckDive.vue'
 
 import AncillaryChart from '@/components/AncillaryChart.vue'
 export default {
   name: 'Video',
   components: {
     VideoView,
-    // CheckDive,
     AnnotationChart,
     AncillaryChart
   },

@@ -59,9 +59,6 @@ export default {
                 var salinity = res[i].annotations[j].ancillary_data.salinity
                 var pressure = res[i].annotations[j].ancillary_data.pressure_dbar
                 var temperature = res[i].annotations[j].ancillary_data.temperature_celsius
-                // this.chartData.labels.push(pressure)
-                // this.chartData.datasets[0].data.push(parseFloat(salinity))
-                // this.chartData.datasets[1].data.push(parseFloat(temperature))
                 var background = ''
                 var border = ''
 
@@ -106,7 +103,6 @@ export default {
                 this.chartData.datasets[0].pointBorderColor[pointNum] = border
                 pointNum++
               }
-              // console.log(res[i].annotations[j].ancillary_data == null)
             }
           }
         }
