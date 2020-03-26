@@ -2,6 +2,7 @@
   <div>
     <CheckDive/>
     <VideoView/>
+    <AnnotationChart class='chart'/>
     <button v-on:click="goBack()">Go Back</button>
     <AncillaryChart class='chart'/>
   </div>
@@ -10,11 +11,14 @@
 <script>
 
 import VideoView from '@/components/VideoView.vue'
+import AnnotationChart from '@/components/AnnotationChart.vue'
+
 import AncillaryChart from '@/components/AncillaryChart.vue'
 export default {
   name: 'Video',
   components: {
     VideoView,
+    AnnotationChart,
     AncillaryChart
   },
   methods: {
