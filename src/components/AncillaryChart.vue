@@ -48,7 +48,7 @@ export default {
   },
   created: function () {
     axios
-      .get('http://localhost:8080/dive/getCTD/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+      .get('http://localhost:8080/dive/getctd/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
       .then((response) => {
         var res = JSON.parse(JSON.stringify(response.data))
         var pointNum = 0

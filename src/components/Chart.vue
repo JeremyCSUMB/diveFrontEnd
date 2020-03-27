@@ -47,9 +47,9 @@ export default {
   },
   created: function () {
     axios.all([
-      axios.get('http://localhost:8080/dive/getHourAndDepth/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
-      axios.get('http://localhost:8080/dive/getMinAndDepth/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
-      axios.get('http://localhost:8080/dive/getDiveDates/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+      axios.get('http://localhost:8080/dive/gethouranddepth/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
+      axios.get('http://localhost:8080/dive/getminanddepth/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
+      axios.get('http://localhost:8080/dive/getdivedates/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
     ])
       .then(axios.spread((hourResponse, minResponse, dateResponse) => {
         var hourRes = JSON.parse(JSON.stringify(hourResponse.data))

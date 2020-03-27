@@ -50,7 +50,7 @@ export default {
     },
     submitData () {
       axios
-        .get('http://localhost:8080/dive/checkDiveNumber/' + this.value + '/' + this.txtInput)
+        .get('http://localhost:8080/dive/checkdivenumber/' + this.value + '/' + this.txtInput)
         .then(response => {
           var val = JSON.parse(JSON.stringify(response.data))
           console.log(val)
