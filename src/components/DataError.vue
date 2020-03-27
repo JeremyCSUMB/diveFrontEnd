@@ -1,11 +1,12 @@
 <template>
   <div>
       <div id="error">
-          <h5>Log of errors/missing data for each of the specified set of data:</h5>
-          <p>Time: {{timeData[0]}}</p>
+          <h5>Missing data in annotations:</h5>
+          <p>Timestamps: {{timeData[0]}}</p>
           <p>Ancillary: {{ancData[0]}}</p>
-          <p>Navigation: {{navData[0]}}</p>
-          <p>CTD: {{ctdData[0]}}</p>
+          <h5>Percentage covered in dive:</h5>
+          <p>Navigation: {{navData[0]}}%</p>
+          <p>CTD: {{ctdData[0]}}%</p>
           <p>Camera HD: {{camhdData[0]}}%</p>
           <p>Camera SD: {{camsdData[0]}}%</p>
       </div>
@@ -46,8 +47,8 @@ export default {
         this.ancData.push(ancData.length)
         this.navData.push(navData)
         this.ctdData.push(ctdData)
-        this.camhdData.push(camhdData * 100)
-        this.camsdData.push(camsdData * 100)
+        this.camhdData.push(camhdData)
+        this.camsdData.push(camsdData)
         console.log(timeData)
         console.log(ancData)
         console.log(navData)
