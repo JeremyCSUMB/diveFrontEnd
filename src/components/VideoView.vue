@@ -15,6 +15,7 @@
         <img src='../assets/upArrow.png' id='arrows' v-on:click="changeSize()"><br><br>
         <VueSlickCarousel v-bind="settings">
           <AncillaryChart class='chart'/>
+          <AnnotationChart class='chart'/>
         </VueSlickCarousel>
       </div>
       <div id="videoandannotations">
@@ -50,6 +51,7 @@
 <script>
 import axios from 'axios'
 import AncillaryChart from '@/components/AncillaryChart.vue'
+import AnnotationChart from '@/components/AnnotationChart.vue'
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
@@ -195,6 +197,7 @@ export default {
 
   components: {
     AncillaryChart,
+    AnnotationChart,
     VueSlickCarousel
   }
 }
