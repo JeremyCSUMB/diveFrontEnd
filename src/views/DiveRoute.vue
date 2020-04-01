@@ -1,5 +1,6 @@
 <template>
   <div>
+    <DataError/>
     <TravelMap class='travel-map'/>
     <button v-on:click="submitData()">View video</button>
     <br>
@@ -14,7 +15,7 @@ import TravelMap from '@/components/TravelMap'
 import Chart from '@/components/Chart.vue'
 import AncillaryChart from '@/components/AncillaryChart.vue'
 import AnnotationChart from '@/components/AnnotationChart.vue'
-
+import DataError from '@/components/DataError.vue'
 require('bootstrap')
 export default {
   name: 'DiveRoute',
@@ -22,7 +23,8 @@ export default {
     TravelMap,
     Chart,
     AncillaryChart,
-    AnnotationChart
+    AnnotationChart,
+    DataError
   },
   methods: {
     submitData () {
