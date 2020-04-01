@@ -9,7 +9,7 @@
         Click Timestamp to play video.<br><br>
         <div id="linksContainer">
           <div v-for="videoLink in videoLinks" :key="videoLink" v-on:click="playVideo($event)" v-bind:id="videoLink" class="linkCard">
-            <p>{{videoData[videoLink]['timestamp']}}</p>
+            <p>{{videoData[videoLink]['recorded_timestamp']}}</p>
           </div>
         </div>
         <img src='../assets/upArrow.png' id='arrows' v-on:click="changeSize()"><br><br>
@@ -97,7 +97,7 @@ export default {
           if (this.annotations[key].elapsed_time_millis !== undefined) {
             this.annotationsMapByTime[Math.floor(this.annotations[key].elapsed_time_millis / 1000)] = this.annotations[key]
           } else {
-            const start = Math.floor(parseInt(this.videoData[this.videoLinks[0]].timestamp.split(':')[2]))
+            const start = Math.floor(parseInt(this.videoData[this.videoLinks[0]].recorded_timestamp.split(':')[2]))
             const current = Math.floor(parseInt(this.videoData[this.videoLinks[0]].annotations[key].recorded_timestamp.split(':')[2]))
             this.annotationsMapByTime[current - start] = this.annotations[key]
           }
@@ -123,7 +123,7 @@ export default {
         if (this.annotations[key].elapsed_time_millis !== undefined) {
           this.annotationsMapByTime[Math.floor(this.annotations[key].elapsed_time_millis / 1000)] = this.annotations[key]
         } else {
-          const start = Math.floor(parseInt(this.videoData[event.currentTarget.id].timestamp.split(':')[2]))
+          const start = Math.floor(parseInt(this.videoData[event.currentTarget.id].recorded_timestamp.split(':')[2]))
           const current = Math.floor(parseInt(this.videoData[event.currentTarget.id].annotations[key].recorded_timestamp.split(':')[2]))
           this.annotationsMapByTime[current - start] = this.annotations[key]
         }
@@ -164,7 +164,7 @@ export default {
         if (observation.elapsed_time_millis !== undefined) {
           return Math.floor(observation.elapsed_time_millis / 1000)
         } else {
-          const start = Math.floor(parseInt(this.videoData[this.videoLinks[0]].timestamp.split(':')[2]))
+          const start = Math.floor(parseInt(this.videoData[this.videoLinks[0]].recorded_timestamp.split(':')[2]))
           const current = Math.floor(parseInt(observation.recorded_timestamp.split(':')[2]))
 
           return current - start
@@ -173,7 +173,7 @@ export default {
         if (observation.elapsed_time_millis !== undefined) {
           return Math.floor(observation.elapsed_time_millis / 1000)
         } else {
-          const start = Math.floor(parseInt(this.videoData[this.currentVideo].timestamp.split(':')[2]))
+          const start = Math.floor(parseInt(this.videoData[this.currentVideo].recorded_timestamp.split(':')[2]))
           const current = Math.floor(parseInt(observation.recorded_timestamp.split(':')[2]))
 
           return current - start
