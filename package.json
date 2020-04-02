@@ -13,16 +13,16 @@
     "bootstrap-vue": "^2.6.1",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.4",
-    "google-maps-api-loader": "^1.1.1",
     "jquery": "^3.4.1",
+    "leaflet": "^1.6.0",
     "popper.js": "^1.16.1",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.0",
     "vue-morris": "^1.1.0",
     "vue-router": "^3.1.5",
     "vue-select": "^3.5.1",
-    "vue-slick-carousel": "^1.0.4",
-    "vue2-google-maps": "^0.10.7"
+    "vue-slick-carousel": "^1.0.5",
+    "vue2-leaflet": "^2.5.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",
