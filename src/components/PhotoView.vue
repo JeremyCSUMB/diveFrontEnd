@@ -1,21 +1,19 @@
 <template>
-    <div class="photocontainer">
-        <div id="videolinks">
-            <!-- <virtual-list :size="40" :remain="8">
-                <li v-for="videoLink in videoLinks" :key="videoLink" v-on:click="playVideo($event)" v-bind:id="videoLink">{{videoData[videoLink]['timestamp']}}</li>
-            </virtual-list> -->
-        </div>
-        <div id="photoandannotations" class="photoRow">
-            <div class="photoColumns">
-                <span v-for="photoLink in photoLinks" :key="photoLink">
-                    <img v-bind:id="photoLink" v-bind:src="photoLink" width="33.33%">
-                    <!-- <div>
-                        {{photoData[photoLink]['timestamp']}}
-                    </div> -->
-                </span>
+  <div class="photoColumns">
+      <span v-for="photoLink in photoLinks" :key="photoLink">
+          <div class="card">
+            <img v-bind:id="photoLink" v-bind:src="photoLink" width="100.00%">
+            <div class="container">
+              <h4><b>{{photoData[photoLink]['timestamp']}}</b></h4>
+              <!-- <p>{{photoData[photoLink]['annotations']}}</p> -->
+              <p class="ancillaryitem">{{photoData[photoLink].annotations}} </p>
+              <!-- <p class="ancillaryitem"> Timestamp: {{photoData[photoLink].observation_timestamp}}</p>
+              <p class="ancillaryitem"> Oxygen: {{photoData[photoLink].ancillary_data.oxygen_ml_l}} </p>
+              <p class="ancillaryitem"> Salinity: {{photoData[photoLink].ancillary_data.salinity}} </p> -->
             </div>
-        </div>
-    </div>
+          </div>
+      </span>
+  </div>
 </template>
 
 <script>
@@ -23,7 +21,6 @@ import axios from 'axios'
 export default {
   name: 'PhotoView',
   data () {
-    console.log('hahah')
     return {
       photoLinks: [],
       photoData: null,
@@ -31,7 +28,6 @@ export default {
     }
   },
   created: function () {
-    console.log('hello world')
     axios
       .get('http://localhost:8080/photoannotations/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
       .then(res => {
@@ -43,39 +39,23 @@ export default {
           this.photoLinks.push(this.photoData.mappingObject.photoMapping[key])
         }
         this.$refs.photoRef.src = this.photoLinks[0]
-        console.log(this.photoLinks)
-        // this.annotations = this.videoData[this.videoLinks[0]].annotations
       })
-  },
-  methods: {
-    playVideo (event) {
-      this.$refs.videoRef.src = event.currentTarget.id
-      this.annotations = this.videoData[event.currentTarget.id].annotations
-    },
-
-    displayAncillaryData (event) {
-      console.log(this.annotations[event.currentTarget.id].ancillary_data)
-    }
-  },
-  components: {
   }
 }
 </script>
 
 <style>
-#videolinks {
-  float: left;
-  width: 33.33%;
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 40%;
 }
 
-.photoColumn {
-  float: left;
-  width: 33.33%;
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
-.photoRow:after {
-  content: "";
-  display: table;
-  clear: both;
+.container {
+  padding: 2px 16px;
 }
 </style>
