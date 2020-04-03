@@ -1,35 +1,52 @@
 <template>
-  <div class="photoColumns">
-      <span v-for="photoLink in photoLinks" :key="photoLink">
+  <div class="photoRow">
+      <div v-for="photoLink in photoLinks" :key="photoLink" class="photoColumn">
           <div class="card">
             <img v-bind:id="photoLink" v-bind:src="photoLink" width="100.00%">
             <div class="container">
-              <h4><b>{{photoData[photoLink]['timestamp']}}</b></h4>
-              <!-- <p>{{photoData[photoLink]['annotations']}}</p> -->
-              <div v-if = "photoData[photoLink].annotations.ancillary_data === undefined" class="ancillarydata">
-                  <p class="ancillaryitem"> Depth: - </p>
-                  <p class="ancillaryitem"> Timestamp: {{photoData[photoLink].observation_timestamp}}</p>
-                  <p class="ancillaryitem"> Oxygen: - </p>
-                  <p class="ancillaryitem"> Salinity: - </p>
+              <VueSlickCarousel v-bind="settings">
+                <div v-for="(annotation, index) in photoData[photoLink].annotations" :key="index">
+                  <div v-if = "photoData[photoLink].annotations[index].ancillary_data === undefined" class="ancillaryData">
+                    <h4><b>{{annotation.concept}}</b></h4>
+                    <p class="ancillaryitem"> Depth: - </p>
+                    <p class="ancillaryitem"> Timestamp: {{photoData[photoLink]['timestamp']}}</p>
+                    <p class="ancillaryitem"> Oxygen: - </p>
+                    <p class="ancillaryitem"> Salinity: - </p>
+                  </div>
+                  <div v-else class="ancillaryData">
+                    <h4><b>{{annotation.concept}}</b></h4>
+                    <p class="ancillaryitem"> Depth: {{annotation.ancillary_data.depth_meters}} </p>
+                    <p class="ancillaryitem"> Timestamp: {{photoData[photoLink].observation_timestamp}}</p>
+                    <p class="ancillaryitem"> Oxygen: {{annotation.ancillary_data.oxygen_ml_l}} </p>
+                    <p class="ancillaryitem"> Salinity: {{annotation.ancillary_data.salinity}} </p>
+                  </div>
                 </div>
-                <div v-else class="ancillarydata">
-                   <p class="ancillaryitem"> Depth: {{photoData[photoLink].annotations.ancillary_data.depth_meters}} </p>
-                   <p class="ancillaryitem"> Timestamp: {{photoData[photoLink].observation_timestamp}}</p>
-                   <p class="ancillaryitem"> Oxygen: {{photoData[photoLink].annotations.ancillary_data.oxygen_ml_l}} </p>
-                   <p class="ancillaryitem"> Salinity: {{photoData[photoLink].annotations.ancillary_data.salinity}} </p>
-              </div>
+              </VueSlickCarousel>
             </div>
           </div>
-      </span>
+      </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 export default {
   name: 'PhotoView',
   data () {
     return {
+      settings: {
+        arrows: true,
+        dots: true,
+        dotsClass: 'slick-dots custom-dot-class',
+        edgeFriction: 0.35,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+      },
       photoLinks: [],
       photoData: null,
       annotations: null
@@ -41,13 +58,14 @@ export default {
       .then(res => {
         this.photoData = JSON.stringify(res.data)
         this.photoData = JSON.parse(this.photoData)
-        console.log(this.photoData)
 
         for (var key in this.photoData.mappingObject.photoMapping) {
           this.photoLinks.push(this.photoData.mappingObject.photoMapping[key])
         }
-        this.$refs.photoRef.src = this.photoLinks[0]
       })
+  },
+  components: {
+    VueSlickCarousel
   }
 }
 </script>
@@ -56,7 +74,12 @@ export default {
 .card {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  width: 40%;
+  width: 99%;
+  float: left;
+  height: 350px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .card:hover {
@@ -65,5 +88,38 @@ export default {
 
 .container {
   padding: 2px 16px;
+}
+
+.photoRow:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.photoColumn {
+  float: left;
+  width: 25%;
+}
+
+.ancillaryData {
+  content: "";
+  display: table;
+  clear: both;
+  width: 100%;
+}
+
+.ancillaryitem {
+  float: left;
+  width: 50%;
+  font-size: .77em;
+}
+
+img {
+  transition: transform .2s;
+}
+
+img:hover {
+  transform: scale(1.5);
+  overflow-x: visible;
 }
 </style>
