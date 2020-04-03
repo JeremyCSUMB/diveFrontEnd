@@ -20,6 +20,7 @@ import axios from 'axios'
 export default {
   components: { LMap, LTileLayer, LMarker },
   data () {
+    console.log('hello')
     return {
       LMarker: [36.8044, -121.79],
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
