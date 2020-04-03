@@ -2,8 +2,9 @@
   <div class="small">
     {{$route.params.rovName}}
     {{$route.params.diveNumber}}
-    <line-chart :chart-data="datacollection"></line-chart>
-    <button @click="fillData()">Randomize</button>
+    <br>
+    {{date}}
+    <line-chart v-if="loaded" :chartData="chartData" :options="options"></line-chart>
   </div>
 </template>
 
@@ -17,39 +18,70 @@ export default {
   },
   data () {
     return {
-      datacollection: null,
-      lat: null,
-      long: null
+      date: null,
+      loaded: false,
+      chartdata: null,
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              reverse: true
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Depth'
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Time (UTC)'
+            }
+          }]
+        }
+      }
     }
   },
-  mounted () {
+  async mounted () {
     this.fillData()
-    // this.renderChart(this.data, { legend: { display: false } })
   },
   created: function () {
-    axios
-      .get('http://localhost:8080/annotations/ventana/4222')
-      .then(res => {
-        this.lat = res.data
-      })
+    axios.all([
+      axios.get('http://localhost:8080/dive/gethouranddepth/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
+      axios.get('http://localhost:8080/dive/getminanddepth/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
+      axios.get('http://localhost:8080/dive/getdivedates/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+    ])
+      .then(axios.spread((hourResponse, minResponse, dateResponse) => {
+        var hourRes = JSON.parse(JSON.stringify(hourResponse.data))
+        var minRes = JSON.parse(JSON.stringify(minResponse.data))
+        var dateRes = JSON.parse(JSON.stringify(dateResponse.data))
+        this.date = dateRes.startDate
+        if (dateRes.startDate !== dateRes.endDate) {
+          this.date += ' - ' + dateRes.endDate
+        }
+        for (var i = 0; i < hourRes.length; i += 35) {
+          var hour = parseInt(hourRes[i].hour).toString()
+          var minute = parseInt(minRes[i].minute).toString()
+          this.chartData.labels.push(hour.concat(':' + minute.padStart(2, '0')))
+          this.chartData.datasets[0].data.push(parseFloat(hourRes[i].depth))
+        }
+        this.loaded = true
+      }))
   },
   methods: {
     fillData () {
-      this.datacollection = {
-        labels: [1, 10, 100],
+      this.chartData = {
+        labels: [],
         datasets: [
           {
             label: 'Data',
             fill: 'false',
             backgroundColor: 'cornflowerblue',
             borderColor: 'cornflowerblue',
-            data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
+            data: []
           }
         ]
       }
-    },
-    getRandomInt () {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5
     }
   }
 }
@@ -58,6 +90,5 @@ export default {
 <style>
   .small {
     max-width: 600px;
-    margin:  50px auto;
   }
 </style>

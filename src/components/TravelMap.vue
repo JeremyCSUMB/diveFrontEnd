@@ -1,82 +1,50 @@
 <template>
-  <GoogleMapLoader
-    :mapConfig='mapConfig'
-    apiKey
-  >// insert your google maps api key to render styled map
-    <template slot-scope='{ google, map }'>
-      <GoogleMapMarker
-        v-for='marker in markers'
-        :key='marker.id'
-        :marker='marker'
-        :google='google'
-        :map='map'
-      />
-      <GoogleMapLine
-        v-for='line in lines'
-        :key='line.id'
-        :path.sync='line.path'
-        :google='google'
-        :map='map'
-      />
-    </template>
-  </GoogleMapLoader>
+  <div id='map'>
+    <div class="info" style="height: 15%">
+    </div>
+    <l-map
+      style="height: 500px; width: 500px"
+      :zoom="zoom"
+      :center="center"
+    >
+      <l-tile-layer :url="url"></l-tile-layer>
+      <l-marker v-for="item in markers" :key="item.id" :lat-lng="item.latlng" @l-add="$event.target.openPopup()"></l-marker>
+    </l-map>
+  </div>
 </template>
 
 <script>
-import GoogleMapLoader from './GoogleMapLoader'
-import GoogleMapMarker from './GoogleMapMarker'
-import GoogleMapLine from './GoogleMapLine'
-
-import { mapSettings } from '@/constants/mapSettings'
+import { LMap, LTileLayer, LMarker } from 'vue2-leaflet'
+import axios from 'axios'
 
 export default {
-  components: {
-    GoogleMapLoader,
-    GoogleMapMarker,
-    GoogleMapLine
-  },
-
+  components: { LMap, LTileLayer, LMarker },
   data () {
     console.log('hello')
     return {
-      markers: [
-        {
-          id: 'a',
-          position: { lat: 36.865947, lng: -122.091005 }
-        },
-        {
-          id: 'b',
-          position: { lat: 36.865945, lng: -122.091003 }
-        },
-        {
-          id: 'c',
-          position: { lat: 36.865943, lng: -122.091014 }
-        }
-      ],
-      lines: [
-        {
-          id: '1',
-          path: [{ lat: 36.865947, lng: -122.091005 }, { lat: 36.865945, lng: -122.091003 }]
-        },
-        {
-          id: '2',
-          path: [{ lat: 36.865945, lng: -122.091003 }, { lat: 36.865943, lng: -122.091014 }]
-        }
-      ]
+      LMarker: [36.8044, -121.79],
+      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      zoom: 15,
+      center: [36.8044, -121.7869],
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      bounds: null,
+      markers: []
     }
   },
-
-  computed: {
-    mapConfig () {
-      return {
-        ...mapSettings,
-        center: this.mapCenter
-      }
-    },
-
-    mapCenter () {
-      return this.markers[1].position
-    }
+  mounted () {
+    axios
+      .get('http://localhost:8080/dive/getlatsandlongs/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+      .then(response => {
+        var latLong = JSON.parse(JSON.stringify(response.data))
+        for (var i = 0; i < latLong.length; i += 65) {
+          this.markers.push({
+            id: i,
+            latlng: [latLong[i].longitude, latLong[i].latitude],
+            content: 'test'
+          })
+        }
+        this.center = [latLong[5].longitude, latLong[5].latitude]
+      })
   }
 }
 </script>

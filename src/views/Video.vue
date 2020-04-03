@@ -1,9 +1,8 @@
 <template>
-    <VideoView></VideoView>
+    <VideoView/>
 </template>
 
 <script>
-
 import VideoView from '@/components/VideoView.vue'
 
 export default {

@@ -2,8 +2,12 @@
   <div>
       <div id="select">
           <h1>ROV Name</h1>
-          <v-select :options="options"></v-select>
+          <v-select :options="options" :value="value" @input="setRov"></v-select>
           <h1>ROV Number</h1>
+          <input id="txtName" @input="addMessage" v-model="txtInput" type="text">
+          <br>
+          <button v-on:click="submitData()">Submit</button>
+          <p>{{ valid[0] }}</p>
       </div>
   </div>
 </template>
@@ -15,9 +19,14 @@ import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
 export default {
   name: 'vueSelect',
+  props: {
+    value: String
+  },
   data () {
     return {
-      options: []
+      valid: [],
+      options: [],
+      txtInput: ''
     }
   },
   created: function () {
@@ -30,6 +39,28 @@ export default {
           this.options.push(names[name])
         }
       })
+  },
+  methods: {
+    addMessage () {
+      console.log(this.txtInput)
+    },
+    setRov (value) {
+      this.value = value
+      console.log(this.value)
+    },
+    submitData () {
+      axios
+        .get('http://localhost:8080/dive/checkdivenumber/' + this.value + '/' + this.txtInput)
+        .then(response => {
+          var val = JSON.parse(JSON.stringify(response.data))
+          console.log(val)
+          if (!val.exists) {
+            this.valid.push('ERROR: Dive does not exist!')
+          } else {
+            this.$router.push('DiveRoute/' + this.value + '/' + this.txtInput)
+          }
+        })
+    }
   }
 }
 </script>
