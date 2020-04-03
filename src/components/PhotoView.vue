@@ -6,10 +6,18 @@
             <div class="container">
               <h4><b>{{photoData[photoLink]['timestamp']}}</b></h4>
               <!-- <p>{{photoData[photoLink]['annotations']}}</p> -->
-              <p class="ancillaryitem">{{photoData[photoLink].annotations}} </p>
-              <!-- <p class="ancillaryitem"> Timestamp: {{photoData[photoLink].observation_timestamp}}</p>
-              <p class="ancillaryitem"> Oxygen: {{photoData[photoLink].ancillary_data.oxygen_ml_l}} </p>
-              <p class="ancillaryitem"> Salinity: {{photoData[photoLink].ancillary_data.salinity}} </p> -->
+              <div v-if = "photoData[photoLink].annotations.ancillary_data === undefined" class="ancillarydata">
+                  <p class="ancillaryitem"> Depth: - </p>
+                  <p class="ancillaryitem"> Timestamp: {{photoData[photoLink].observation_timestamp}}</p>
+                  <p class="ancillaryitem"> Oxygen: - </p>
+                  <p class="ancillaryitem"> Salinity: - </p>
+                </div>
+                <div v-else class="ancillarydata">
+                   <p class="ancillaryitem"> Depth: {{photoData[photoLink].annotations.ancillary_data.depth_meters}} </p>
+                   <p class="ancillaryitem"> Timestamp: {{photoData[photoLink].observation_timestamp}}</p>
+                   <p class="ancillaryitem"> Oxygen: {{photoData[photoLink].annotations.ancillary_data.oxygen_ml_l}} </p>
+                   <p class="ancillaryitem"> Salinity: {{photoData[photoLink].annotations.ancillary_data.salinity}} </p>
+              </div>
             </div>
           </div>
       </span>
