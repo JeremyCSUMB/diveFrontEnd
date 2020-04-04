@@ -57,7 +57,7 @@ export default {
           if (!val.exists) {
             this.valid.push('ERROR: Dive does not exist!')
           } else {
-            this.$router.push('DiveRoute/' + this.value + '/' + this.txtInput)
+            this.$router.push('diveRoute/' + this.value + '/' + this.txtInput)
           }
         })
     }
