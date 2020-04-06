@@ -1,5 +1,5 @@
 <template>
-    <PhotoView></PhotoView>
+  <PhotoView></PhotoView>
 </template>
 
 <script>

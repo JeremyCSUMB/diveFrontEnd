@@ -1,12 +1,28 @@
 <template>
-  <div>
-    <DataError/>
-    <TravelMap class='travel-map'/>
-    <button v-on:click="submitData()">View video</button>
-    <br>
-    <AncillaryChart class='AncillaryChart'/>
-    <AnnotationChart class='AnnotationChart'/>
-    <Chart class='Chart'/>
+  <div id="container">
+    <div id="main">
+      <div id="topSection">
+        <div id='diveInfo' v-if = "diveInfo !== null" class="topSectionElement">
+          <h5>Dive Information</h5>
+          <b>Chief Scientist:</b> {{diveInfo.chiefScientist}}<br><br>
+          <b>Accomplishments:</b> {{diveInfo.briefAccomplishments}}<br><br>
+          <b>Start Date:</b> {{diveInfo.startDate}}<br><br>
+          <b>Start Latitude:</b> {{diveInfo.latitude}}<br><br>
+          <b>Start Longitude:</b> {{diveInfo.longitude}}<br><br>
+          <b>ROV Name:</b> {{diveInfo.rovName}}<br><br>
+          <b>Dive Number:</b> {{diveInfo.diveNumber}}<br><br>
+        </div>
+        <DataError class="topSectionElement"/>
+      </div>
+      <div id="charts">
+        <TravelMap class='chart'/>
+        <AncillaryChart class='chart'/>
+        <Chart class='graphItem'/>
+      </div>
+        <button v-on:click="directToPhotoPage()">View Photos</button>
+        <button v-on:click="directToVideoPage()">View video</button>
+        <br>
+    </div>
   </div>
 </template>
 
@@ -14,30 +30,81 @@
 import TravelMap from '@/components/TravelMap'
 import Chart from '@/components/Chart.vue'
 import AncillaryChart from '@/components/AncillaryChart.vue'
-import AnnotationChart from '@/components/AnnotationChart.vue'
 import DataError from '@/components/DataError.vue'
+import axios from 'axios'
 require('bootstrap')
 export default {
   name: 'DiveRoute',
+  data () {
+    return {
+      diveInfo: null
+    }
+  },
+  created: function () {
+    axios
+      .get('http://localhost:8080/dive/getgeneraldiveinformation/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+      .then(res => {
+        this.diveInfo = JSON.parse(JSON.stringify(res.data))
+      })
+  },
   components: {
     TravelMap,
     Chart,
     AncillaryChart,
-    AnnotationChart,
     DataError
   },
   methods: {
-    submitData () {
+    directToVideoPage () {
       this.$router.push('/video/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+    },
+
+    directToPhotoPage () {
+      this.$router.push('/photo/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
     }
   }
 }
 </script>
 
 <style lang='scss' scoped>
-.travel-map {
-  height: 650px;
-  width: 100%;
-  float: left;
+
+#diveInfo {
+  overflow: wrap;
+  text-align: left;
+  max-width: 30em;
+  margin: 0 auto;
 }
+
+#topSection {
+  width: 100%;
+}
+
+#topSection:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.topSectionElement {
+  float: left;
+  width: 50%;
+  padding-left: 15%;
+}
+
+#charts:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.chart {
+  float: left;
+  width: 50%;
+}
+
+#main {
+  margin: 0 auto;
+  padding-left: 100px;
+  padding-bottom: 50px;
+}
+
 </style>
