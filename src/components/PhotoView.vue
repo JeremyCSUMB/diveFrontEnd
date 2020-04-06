@@ -21,7 +21,7 @@
                       <div v-else class="ancillaryData">
                         <h4><b>{{annotation.concept}}</b></h4>
                         <p class="ancillaryitem"> Depth: {{annotation.ancillary_data.depth_meters}} </p>
-                        <p class="ancillaryitem"> Timestamp: {{photoData[photoLink].observation_timestamp}}</p>
+                        <p class="ancillaryitem"> Timestamp: {{photoData[photoLink].recorded_timestamp}}</p>
                         <p class="ancillaryitem"> Oxygen: {{annotation.ancillary_data.oxygen_ml_l}} </p>
                         <p class="ancillaryitem"> Salinity: {{annotation.ancillary_data.salinity}} </p>
                       </div>
@@ -135,6 +135,6 @@ img {
 
 img:hover {
   transform: scale(1.5);
-  overflow-x: visible;
+  z-index: 9;
 }
 </style>
