@@ -16,12 +16,14 @@
       </div>
       <div id="charts">
         <TravelMap class='chart'/>
-        <AncillaryChart class='chart'/>
         <Chart class='graphItem'/>
+        <AncillaryChart class='aChart'/>
       </div>
+      <div>
         <button v-on:click="directToPhotoPage()">View Photos</button>
         <button v-on:click="directToVideoPage()">View video</button>
-        <br>
+      </div>
+      <br>
     </div>
   </div>
 </template>
@@ -98,6 +100,12 @@ export default {
 
 .chart {
   float: left;
+  width: 50%;
+  height: 500px;
+}
+
+.graphItem {
+  float: right;
   width: 50%;
 }
 
