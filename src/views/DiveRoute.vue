@@ -15,8 +15,8 @@
         <DataError class="topSectionElement"/>
       </div>
       <div id="charts">
-        <TravelMap class='chart'/>
-        <Chart class='graphItem'/>
+        <TravelMap class='map'/>
+        <Chart class='chart'/>
         <AncillaryChart class='aChart'/>
       </div>
       <div>
@@ -98,13 +98,13 @@ export default {
   clear: both;
 }
 
-.chart {
+.map {
   float: left;
   width: 50%;
   height: 500px;
 }
 
-.graphItem {
+.chart {
   float: right;
   width: 50%;
 }
