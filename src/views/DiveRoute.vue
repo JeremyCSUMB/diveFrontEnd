@@ -17,8 +17,8 @@
       <div id="charts">
         <TravelMap class='map'/>
         <Chart class='chart'/>
-        <AncillaryChart class='aChart'/>
       </div>
+      <AncillaryChart class='aChart'/>
       <div>
         <button v-on:click="directToPhotoPage()">View Photos</button>
         <button v-on:click="directToVideoPage()">View video</button>
