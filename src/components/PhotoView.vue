@@ -75,8 +75,10 @@ export default {
         document.getElementById('main').style.visibility = 'visible'
       })
   },
-  goBack () {
-    this.$router.go(-1)
+  methods: {
+    goBack () {
+      this.$router.go(-1)
+    }
   },
   components: {
     VueSlickCarousel
