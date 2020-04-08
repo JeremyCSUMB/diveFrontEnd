@@ -35,7 +35,7 @@ export default {
       .get('http://localhost:8080/dive/getlatsandlongs/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
       .then(response => {
         var latLong = JSON.parse(JSON.stringify(response.data))
-        for (var i = 0; i < latLong.length; i += 65) {
+        for (var i = 0; i < latLong.length; i += 15) {
           this.markers.push({
             id: i,
             latlng: [latLong[i].longitude, latLong[i].latitude],
