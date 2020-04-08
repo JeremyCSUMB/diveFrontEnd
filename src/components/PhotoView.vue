@@ -7,7 +7,7 @@
       <div class="photoRow">
           <div v-for="photoLink in photoLinks" :key="photoLink" class="photoColumn">
               <div class="card">
-                <a v-bind:href="photoLink"><img v-bind:id="photoLink" v-bind:src="photoLink" width="100.00%"></a>
+                <a v-bind:href="photoLink" target="_blank"><img v-bind:id="photoLink" v-bind:src="photoLink" width="100.00%"></a>
                 <div class="container">
                   <VueSlickCarousel v-bind="settings">
                     <div v-for="(annotation, index) in photoData[photoLink].annotations" :key="index">
