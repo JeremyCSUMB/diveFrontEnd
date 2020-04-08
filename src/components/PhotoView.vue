@@ -134,6 +134,7 @@ img {
 }
 
 img:hover {
+  position: relative;
   transform: scale(1.5);
   z-index: 9;
 }

@@ -7,6 +7,7 @@
           <b>Chief Scientist:</b> {{diveInfo.chiefScientist}}<br><br>
           <b>Accomplishments:</b> {{diveInfo.briefAccomplishments}}<br><br>
           <b>Start Date:</b> {{diveInfo.startDate}}<br><br>
+          <b>End Date:</b> {{diveInfo.endDate}}<br><br>
           <b>Start Latitude:</b> {{diveInfo.latitude}}<br><br>
           <b>Start Longitude:</b> {{diveInfo.longitude}}<br><br>
           <b>ROV Name:</b> {{diveInfo.rovName}}<br><br>
