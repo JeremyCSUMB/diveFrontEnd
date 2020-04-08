@@ -1,8 +1,8 @@
 <template>
   <div class="small">
-    Pressure
+    Pressure - CTD data
     <div class='gradient'>.</div>
-    <pre class="tab">0     10     20     30     40    50     60     70     80     90     100</pre>
+    <pre class="tab">0     400     800     1200     1600    2000     2400     2800     3200     3600     4000</pre>
     <br>
     {{date}}
     <ScatterPlot v-if="loaded" :chartData="chartData" :options="options"></ScatterPlot>
@@ -66,39 +66,40 @@ export default {
           this.chartData.labels.push(parseFloat(temperature))
           this.chartData.datasets[0].data.push({ x: parseFloat(salinity), y: temperature })
 
-          if (pressure < 10) {
+          if (pressure < 400) {
             background = 'white'
             border = 'black'
-          } else if (pressure < 20) {
+          } else if (pressure < 800) {
             background = '#f600ff'
             border = '#f600ff'
-          } else if (pressure < 30) {
+          } else if (pressure < 1200) {
             background = 'purple'
             border = 'purple'
-          } else if (pressure < 40) {
+          } else if (pressure < 1600) {
             background = 'blue'
             border = 'blue'
-          } else if (pressure < 50) {
+          } else if (pressure < 2000) {
             background = 'cyan'
             border = 'cyan'
-          } else if (pressure < 60) {
+          } else if (pressure < 2400) {
             background = '#00f913'
             border = '#00f913'
-          } else if (pressure < 70) {
+          } else if (pressure < 2800) {
             background = 'lightgreen'
             border = 'lightgreen'
-          } else if (pressure < 80) {
+          } else if (pressure < 3200) {
             background = 'yellow'
             border = 'yellow'
-          } else if (pressure < 90) {
+          } else if (pressure < 3600) {
             background = 'orange'
             border = 'orange'
-          } else if (pressure < 100) {
+          } else if (pressure < 4000) {
             background = 'red'
             border = 'red'
           } else {
             background = 'black'
             border = 'black'
+            console.log(pressure)
           }
           this.chartData.datasets[0].pointBackgroundColor[pointNum] = background
           this.chartData.datasets[0].pointBorderColor[pointNum] = border

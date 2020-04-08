@@ -3,7 +3,6 @@
     <div class="info" style="height: 15%">
     </div>
     <l-map
-      style="height: 500px; width: 500px"
       :zoom="zoom"
       :center="center"
     >
