@@ -3,6 +3,7 @@
     <div id="loadingDiv">
       <img src="../assets/loading.gif">
     </div>
+    <button v-on:click="goBack()">Go Back</button><br><br>
     <div id="main">
       <div class="photoRow">
           <div v-for="photoLink in photoLinks" :key="photoLink" class="photoColumn">
@@ -57,6 +58,11 @@ export default {
       photoLinks: [],
       photoData: null,
       annotations: null
+    }
+  },
+  methods: {
+    goBack () {
+      this.$router.go(-1)
     }
   },
   created: function () {
