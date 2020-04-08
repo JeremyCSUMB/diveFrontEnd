@@ -110,6 +110,10 @@ export default {
   width: 50%;
 }
 
+.aChart {
+  width: 500px;
+}
+
 #main {
   margin: 0 auto;
   padding-left: 100px;

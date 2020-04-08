@@ -2,7 +2,7 @@
   <div class="small">
     Pressure - Annotation data
     <div class='gradient'>.</div>
-    <pre class="tab">0     400     800     1200     1600    2000     2400     2800     3200     3600     4000</pre>
+    <pre class="tab">0    400    800   1200   1600   2000   2400   2800   3200   3600   4000</pre>
     <br>
     {{date}}
     <ScatterPlot v-if="loaded" :chartData="chartData" :options="options"></ScatterPlot>
