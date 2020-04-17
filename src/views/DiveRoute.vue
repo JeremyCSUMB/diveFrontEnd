@@ -20,6 +20,7 @@
         <Chart class='chart'/>
       </div>
       <AncillaryChart class='aChart'/>
+      <OTSChart class='ots'/>
       <div>
         <button v-on:click="directToPhotoPage()">View Photos</button>
         <button v-on:click="directToVideoPage()">View video</button>
@@ -34,6 +35,7 @@ import TravelMap from '@/components/TravelMap'
 import Chart from '@/components/Chart.vue'
 import AncillaryChart from '@/components/AncillaryChart.vue'
 import DataError from '@/components/DataError.vue'
+import OTSChart from '@/components/OTSChart.vue'
 import axios from 'axios'
 require('bootstrap')
 export default {
@@ -54,7 +56,8 @@ export default {
     TravelMap,
     Chart,
     AncillaryChart,
-    DataError
+    DataError,
+    OTSChart
   },
   methods: {
     directToVideoPage () {
@@ -108,6 +111,13 @@ export default {
 .chart {
   float: right;
   width: 50%;
+}
+
+.ots {
+  // float: right;
+  width: 400px;
+  position: relative;
+  right: 20px
 }
 
 .aChart {
