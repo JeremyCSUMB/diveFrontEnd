@@ -15,6 +15,10 @@
         </div>
         <DataError class="topSectionElement"/>
       </div>
+      <div id="downloadbuttons">
+        <button v-on:click="downloadData('ctd')" id='ctdbutton' disabled>Download CTD</button>
+        <button v-on:click="downloadData('navigation')" id='navbutton' disabled>Download Navigation</button>
+      </div>
       <div id="charts">
         <TravelMap class='map'/>
         <Chart class='chart'/>
@@ -40,15 +44,25 @@ export default {
   name: 'DiveRoute',
   data () {
     return {
-      diveInfo: null
+      diveInfo: null,
+      ctdData: null,
+      latsAndLongs: null
     }
   },
   created: function () {
-    axios
-      .get('http://localhost:8080/dive/getgeneraldiveinformation/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
-      .then(res => {
-        this.diveInfo = JSON.parse(JSON.stringify(res.data))
-      })
+    axios.all([
+      axios.get('http://localhost:8080/dive/getgeneraldiveinformation/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
+      axios.get('http://localhost:8080/dive/getctd/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
+      axios.get('http://localhost:8080/dive/getlatsandlongs/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+    ])
+      .then(axios.spread((diveInfo, ctdData, latsAndLongs) => {
+        this.diveInfo = JSON.parse(JSON.stringify(diveInfo.data))
+        this.ctdData = JSON.parse(JSON.stringify(ctdData.data))
+        this.latsAndLongs = JSON.parse(JSON.stringify(latsAndLongs.data))
+
+        document.getElementById('ctdbutton').disabled = false
+        document.getElementById('navbutton').disabled = false
+      }))
   },
   components: {
     TravelMap,
@@ -63,6 +77,26 @@ export default {
 
     directToPhotoPage () {
       this.$router.push('/photo/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+    },
+
+    downloadData (data) {
+      var exportObj
+      var exportName
+      if (data === 'ctd') {
+        exportObj = this.ctdData
+        exportName = this.$route.params.rovName + this.$route.params.diveNumber + 'ctdData'
+      } else {
+        exportObj = this.latsAndLongs
+        exportName = this.$route.params.rovName + this.$route.params.diveNumber + 'navData'
+      }
+
+      var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(exportObj))
+      var downloadAnchorNode = document.createElement('a')
+      downloadAnchorNode.setAttribute('href', dataStr)
+      downloadAnchorNode.setAttribute('download', exportName + '.json')
+      document.body.appendChild(downloadAnchorNode) // required for firefox
+      downloadAnchorNode.click()
+      downloadAnchorNode.remove()
     }
   }
 }

@@ -49,12 +49,6 @@ export default {
         this.ctdData.push(ctdData)
         this.camhdData.push(camhdData)
         this.camsdData.push(camsdData)
-        console.log(timeData)
-        console.log(ancData)
-        console.log(navData)
-        console.log(ctdData)
-        console.log(camhdData)
-        console.log(camsdData)
       }))
   }
 }

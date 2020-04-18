@@ -99,7 +99,6 @@ export default {
           } else {
             background = 'black'
             border = 'black'
-            console.log(pressure)
           }
           this.chartData.datasets[0].pointBackgroundColor[pointNum] = background
           this.chartData.datasets[0].pointBorderColor[pointNum] = border
