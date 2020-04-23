@@ -3,9 +3,9 @@
     <div id="loadingDiv">
       <img src="../assets/loading.gif">
     </div>
-    <button v-on:click="goBack()">Go Back</button><br><br>
-    <div id="videocontainer">
-      <div id="videolinks">
+    <button class='button' v-on:click="goBack()">Go Back</button><br><br>
+    <div class='grid-container'>
+      <div class='grid-item'>
         Click Timestamp to play video.<br><br>
         <div id="linksContainer">
           <div v-for="videoLink in videoLinks" :key="videoLink" v-on:click="playVideo($event)" v-bind:id="videoLink" class="linkCard">
@@ -13,13 +13,17 @@
           </div>
         </div>
         <img src='../assets/upArrow.png' id='arrows' v-on:click="changeSize()"><br><br>
+      </div>
+      <div class='grid-item'>
+        <video @timeupdate="onTimeUpdateListener" width="90%" ref="videoRef" :emit="['timeupdate']" controls src="" id="video-player"></video><br>
+      </div>
+      <div class='grid-item'>
         <VueSlickCarousel v-bind="settings">
           <AncillaryChart class='chart'/>
           <AnnotationChart class='chart'/>
         </VueSlickCarousel>
       </div>
-      <div id="videoandannotations">
-        <video @timeupdate="onTimeUpdateListener" width="90%" ref="videoRef" :emit="['timeupdate']" controls src="" id="video-player"></video><br>
+      <div class='grid-item'>
         <p>Annotations:</p>
         <div id="annotationContainer">
           <div v-if = "annotations.length == 0">
@@ -295,4 +299,44 @@ export default {
   color: black;
 }
 
+#container {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 35% 65%;
+  grid-template-rows: 50% 50%;
+  background-color: #2196F3;
+  padding: 10px;
+  height: 1300px;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  text-align: center;
+  font-size: 11pt;
+  padding-top: 10%;
+}
+
+.button {
+  background-color: #2196F3; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
 </style>
