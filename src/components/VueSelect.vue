@@ -6,6 +6,7 @@
           <h1>ROV Number</h1>
           <input id="txtName" @input="addMessage" v-model="txtInput" type="text">
           <br>
+          <br>
           <button v-on:click="submitData()">Submit</button>
           <p>{{ valid[0] }}</p>
       </div>

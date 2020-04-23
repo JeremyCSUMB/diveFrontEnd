@@ -1,42 +1,54 @@
 <template>
-  <div id="container">
-    <div id="main">
-      <div id="topSection">
-        <div id='diveInfo' v-if = "diveInfo !== null" class="topSectionElement">
-          <h5>Dive Information</h5>
-          <b>Chief Scientist:</b> {{diveInfo.chiefScientist}}<br><br>
-          <b>Accomplishments:</b> {{diveInfo.briefAccomplishments}}<br><br>
-          <b>Start Date:</b> {{diveInfo.startDate}}<br><br>
-          <b>End Date:</b> {{diveInfo.endDate}}<br><br>
-          <b>Start Latitude:</b> {{diveInfo.latitude}}<br><br>
-          <b>Start Longitude:</b> {{diveInfo.longitude}}<br><br>
-          <b>ROV Name:</b> {{diveInfo.rovName}}<br><br>
-          <b>Dive Number:</b> {{diveInfo.diveNumber}}<br><br>
-        </div>
-        <DataError class="topSectionElement"/>
+  <div id="main">
+    <div id="topSection">
+      <div id='diveInfo' v-if = "diveInfo !== null" class="topSectionElement">
+        <h5>Dive Information</h5>
+        <b>Chief Scientist:</b> {{diveInfo.chiefScientist}}<br><br>
+        <b>Accomplishments:</b> {{diveInfo.briefAccomplishments}}<br><br>
+        <b>Start Date:</b> {{diveInfo.startDate}}<br><br>
+        <b>End Date:</b> {{diveInfo.endDate}}<br><br>
+        <b>Start Latitude:</b> {{diveInfo.latitude}}<br><br>
+        <b>Start Longitude:</b> {{diveInfo.longitude}}<br><br>
+        <b>ROV Name:</b> {{diveInfo.rovName}}<br><br>
+        <b>Dive Number:</b> {{diveInfo.diveNumber}}<br><br>
       </div>
-      <div id="downloadbuttons">
-        <toggle-button ref="downloadtoggle"
-          @change="onToggleUpdate()"
-          :value="togglestatus"
-          :labels="{checked: 'CSV', unchecked: 'JSON'}"
-          :width="60"
-          :color="{unchecked: 'blue'}"/><br>
-        <button v-on:click="jsonOrCsv('ctd')" id='ctdbutton' disabled>Download CTD</button>
-        <button v-on:click="jsonOrCsv('navigation')" id='navbutton' disabled>Download Navigation</button>
-      </div>
-      <div id="charts">
+
+      <DataError class="topSectionElement"/>
+    </div>
+    <div id="downloadbuttons">
+      <toggle-button ref="downloadtoggle"
+        @change="onToggleUpdate()"
+        :value="togglestatus"
+        :labels="{checked: 'CSV', unchecked: 'JSON'}"
+        :width="60"
+        :color="{unchecked: 'blue'}"/><br>
+      <button v-on:click="jsonOrCsv('ctd')" id='ctdbutton' disabled>Download CTD</button>
+      <button v-on:click="jsonOrCsv('navigation')" id='navbutton' disabled>Download Navigation</button>
+    </div>
+    <br>
+  <!-- <div id="charts"> -->
+    <div class="grid-container">
+      <div class="grid-item">
         <TravelMap class='map'/>
+      </div>
+      <div class="grid-item">
         <Chart class='chart'/>
       </div>
-      <AncillaryChart class='aChart'/>
-      <OTSChart class='ots'/>
-      <div>
-        <button v-on:click="directToPhotoPage()">View Photos</button>
-        <button v-on:click="directToVideoPage()">View video</button>
+      <div class="grid-item">
+        <AncillaryChart class='aChart'/>
       </div>
-      <br>
+      <div class="grid-item">
+        <OTSChart class='ots'/>
+      </div>
     </div>
+
+    <br>
+    <div>
+      <button v-on:click="directToPhotoPage()">View Photos</button>
+      <button v-on:click="directToVideoPage()">View Video</button>
+    </div>
+
+    <br>
   </div>
 </template>
 
@@ -209,31 +221,44 @@ export default {
 }
 
 .map {
-  float: left;
-  width: 50%;
-  height: 500px;
+  width: 80%;
+  height: 80%;
+  margin: auto;
 }
 
 .chart {
-  float: right;
-  width: 50%;
+  margin: auto;
 }
 
 .ots {
-  // float: right;
-  width: 400px;
-  position: relative;
-  right: 20px
+  margin: auto;
+  right: 20px;
+  width: 80%;
+  padding-top: 5%;
 }
 
 .aChart {
-  width: 500px;
+  margin: auto;
 }
 
 #main {
   margin: 0 auto;
   padding-left: 100px;
+  padding-right: 100px;
   padding-bottom: 50px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  background-color: #2196F3;
+  padding: 10px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  text-align: center;
+  font-size: 10pt;
 }
 
 </style>
