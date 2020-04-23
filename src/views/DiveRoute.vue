@@ -16,8 +16,14 @@
         <DataError class="topSectionElement"/>
       </div>
       <div id="downloadbuttons">
-        <button v-on:click="downloadData('ctd')" id='ctdbutton' disabled>Download CTD</button>
-        <button v-on:click="downloadData('navigation')" id='navbutton' disabled>Download Navigation</button>
+        <toggle-button ref="downloadtoggle"
+          @change="onToggleUpdate()"
+          :value="togglestatus"
+          :labels="{checked: 'CSV', unchecked: 'JSON'}"
+          :width="60"
+          :color="{unchecked: 'blue'}"/><br>
+        <button v-on:click="jsonOrCsv('ctd')" id='ctdbutton' disabled>Download CTD</button>
+        <button v-on:click="jsonOrCsv('navigation')" id='navbutton' disabled>Download Navigation</button>
       </div>
       <div id="charts">
         <TravelMap class='map'/>
@@ -40,6 +46,7 @@ import Chart from '@/components/Chart.vue'
 import AncillaryChart from '@/components/AncillaryChart.vue'
 import DataError from '@/components/DataError.vue'
 import OTSChart from '@/components/OTSChart.vue'
+import { ToggleButton } from 'vue-js-toggle-button'
 import axios from 'axios'
 require('bootstrap')
 export default {
@@ -48,7 +55,8 @@ export default {
     return {
       diveInfo: null,
       ctdData: null,
-      latsAndLongs: null
+      latsAndLongs: null,
+      togglestatus: false
     }
   },
   created: function () {
@@ -71,7 +79,8 @@ export default {
     Chart,
     AncillaryChart,
     DataError,
-    OTSChart
+    OTSChart,
+    ToggleButton
   },
   methods: {
     directToVideoPage () {
@@ -82,10 +91,22 @@ export default {
       this.$router.push('/photo/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
     },
 
-    downloadData (data) {
+    onToggleUpdate () {
+      this.togglestatus = !this.togglestatus
+    },
+
+    jsonOrCsv (datatype) {
+      if (this.togglestatus) { // For Csv
+        this.downloadCsvData(datatype)
+      } else { // For Json
+        this.downloadJsonData(datatype)
+      }
+    },
+
+    downloadJsonData (datatype) {
       var exportObj
       var exportName
-      if (data === 'ctd') {
+      if (datatype === 'ctd') {
         exportObj = this.ctdData
         exportName = this.$route.params.rovName + this.$route.params.diveNumber + 'ctdData'
       } else {
@@ -100,6 +121,57 @@ export default {
       document.body.appendChild(downloadAnchorNode) // required for firefox
       downloadAnchorNode.click()
       downloadAnchorNode.remove()
+    },
+
+    JSONToCSVConvertor (JSONData, ShowLabel, fileName) {
+      var arrData = typeof JSONData !== 'object' ? JSON.parse(JSONData) : JSONData
+
+      var CSV = ''
+      if (ShowLabel) {
+        var row = ''
+        for (var index in arrData[0]) {
+          row += index + ','
+        }
+        row = row.slice(0, -1)
+        CSV += row + '\r\n'
+      }
+
+      for (var i = 0; i < arrData.length; i++) {
+        row = ''
+        for (var ind in arrData[i]) {
+          row += '"' + arrData[i][ind] + '",'
+        }
+
+        row.slice(0, row.length - 1)
+        CSV += row + '\r\n'
+      }
+
+      if (CSV === '') {
+        return
+      }
+
+      var uri = 'data:text/csv;charset=utf-8,' + escape(CSV)
+      var link = document.createElement('a')
+      link.href = uri
+      link.style = 'visibility:hidden'
+      link.download = fileName
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    },
+
+    downloadCsvData (datatype) {
+      var exportObj
+      var exportName
+      if (datatype === 'ctd') {
+        exportObj = this.ctdData
+        exportName = this.$route.params.rovName + this.$route.params.diveNumber + 'ctdData'
+      } else {
+        exportObj = this.latsAndLongs
+        exportName = this.$route.params.rovName + this.$route.params.diveNumber + 'navData'
+      }
+
+      this.JSONToCSVConvertor(exportObj, true, exportName)
     }
   }
 }
