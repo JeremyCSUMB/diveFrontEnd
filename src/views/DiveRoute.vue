@@ -46,7 +46,6 @@
       <div class='grid-item'>
         <OTSChart class='ots'/>
       </div>
-      <br>
     </div>
 
     <br>
@@ -253,6 +252,13 @@ export default {
 .aChart {
   padding-top: 5%;
   height: 600px;
+  margin: auto;
+  right: 20px;
+  width: 80%;
+  padding-top: 5%;
+}
+
+.aChart {
   margin: auto;
 }
 
