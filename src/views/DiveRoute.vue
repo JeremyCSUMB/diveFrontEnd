@@ -1,51 +1,57 @@
 <template>
-  <div id="main">
-    <div id="topSection">
-      <div id='diveInfo' v-if = "diveInfo !== null" class="topSectionElement">
-        <h5>Dive Information</h5>
-        <b>Chief Scientist:</b> {{diveInfo.chiefScientist}}<br><br>
-        <b>Accomplishments:</b> {{diveInfo.briefAccomplishments}}<br><br>
-        <b>Start Date:</b> {{diveInfo.startDate}}<br><br>
-        <b>End Date:</b> {{diveInfo.endDate}}<br><br>
-        <b>Start Latitude:</b> {{diveInfo.latitude}}<br><br>
-        <b>Start Longitude:</b> {{diveInfo.longitude}}<br><br>
-        <b>ROV Name:</b> {{diveInfo.rovName}}<br><br>
-        <b>Dive Number:</b> {{diveInfo.diveNumber}}<br><br>
+  <div id='main'>
+    <div id='topSection' class='grid-container-top'>
+      <div class='grid-item'>
+        <div id='diveInfo' v-if = 'diveInfo !== null' class='topSectionElement'>
+          <h5>Dive Information</h5>
+          <b>Chief Scientist:</b> {{diveInfo.chiefScientist}}<br><br>
+          <b>Accomplishments:</b> {{diveInfo.briefAccomplishments}}<br><br>
+          <b>Start Date:</b> {{diveInfo.startDate}}<br><br>
+          <b>End Date:</b> {{diveInfo.endDate}}<br><br>
+          <b>Start Latitude:</b> {{diveInfo.latitude}}<br><br>
+          <b>Start Longitude:</b> {{diveInfo.longitude}}<br><br>
+          <b>ROV Name:</b> {{diveInfo.rovName}}<br><br>
+          <b>Dive Number:</b> {{diveInfo.diveNumber}}<br><br>
+        </div>
       </div>
-
-      <DataError class="topSectionElement"/>
+      <div class='grid-item'>
+        <DataError class='topSectionElement'/>
+      </div>
     </div>
-    <div id="downloadbuttons">
-      <toggle-button ref="downloadtoggle"
-        @change="onToggleUpdate()"
-        :value="togglestatus"
-        :labels="{checked: 'CSV', unchecked: 'JSON'}"
-        :width="60"
-        :color="{unchecked: 'blue'}"/><br>
-      <button v-on:click="jsonOrCsv('ctd')" id='ctdbutton' disabled>Download CTD</button>
-      <button v-on:click="jsonOrCsv('navigation')" id='navbutton' disabled>Download Navigation</button>
+
+    <br>
+
+    <div id='downloadbuttons'>
+      <toggle-button ref='downloadtoggle'
+        @change='onToggleUpdate()'
+        :value='togglestatus'
+        :labels='{checked: "CSV", unchecked: "JSON"}'
+        :width='60'
+        :color='{unchecked: "#2196F3", checked: "#4CAF50"}'/><br>
+      <button class='button' v-on:click='jsonOrCsv("ctd")' id='ctdbutton' disabled>Download CTD</button>
+      <button class='button' v-on:click='jsonOrCsv("navigation")' id='navbutton' disabled>Download Navigation</button>
     </div>
     <br>
-  <!-- <div id="charts"> -->
-    <div class="grid-container">
-      <div class="grid-item">
+    <br>
+    <div class='grid-container-bottom'>
+      <div class='grid-item'>
         <TravelMap class='map'/>
       </div>
-      <div class="grid-item">
+      <div class='grid-item'>
         <Chart class='chart'/>
       </div>
-      <div class="grid-item">
+      <div class='grid-item'>
         <AncillaryChart class='aChart'/>
       </div>
-      <div class="grid-item">
+      <div class='grid-item'>
         <OTSChart class='ots'/>
       </div>
     </div>
 
     <br>
     <div>
-      <button v-on:click="directToPhotoPage()">View Photos</button>
-      <button v-on:click="directToVideoPage()">View Video</button>
+      <button class='button' v-on:click='directToPhotoPage()'>View Photos</button>
+      <button class='button' v-on:click='directToVideoPage()'>View Video</button>
     </div>
 
     <br>
@@ -105,6 +111,13 @@ export default {
 
     onToggleUpdate () {
       this.togglestatus = !this.togglestatus
+      if (this.togglestatus === false) {
+        document.getElementById('ctdbutton').style.backgroundColor = '#2196F3'
+        document.getElementById('navbutton').style.backgroundColor = '#2196F3'
+      } else {
+        document.getElementById('ctdbutton').style.backgroundColor = '#4CAF50'
+        document.getElementById('navbutton').style.backgroundColor = '#4CAF50'
+      }
     },
 
     jsonOrCsv (datatype) {
@@ -203,7 +216,7 @@ export default {
 }
 
 #topSection:after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -215,7 +228,7 @@ export default {
 }
 
 #charts:after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -227,10 +240,18 @@ export default {
 }
 
 .chart {
+  padding-top: 10%;
   margin: auto;
 }
 
 .ots {
+  position: relative;
+  margin: auto;
+}
+
+.aChart {
+  padding-top: 5%;
+  height: 600px;
   margin: auto;
   right: 20px;
   width: 80%;
@@ -248,17 +269,45 @@ export default {
   padding-bottom: 50px;
 }
 
-.grid-container {
+.grid-container-top {
   display: grid;
   grid-template-columns: 50% 50%;
   background-color: #2196F3;
   padding: 10px;
 }
+
+.grid-container-bottom {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+  background-color: #2196F3;
+  padding: 10px;
+}
+
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
   text-align: center;
   font-size: 10pt;
+}
+
+.button {
+  background-color: #2196F3; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
 </style>

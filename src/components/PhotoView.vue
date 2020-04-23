@@ -3,7 +3,7 @@
     <div id="loadingDiv">
       <img src="../assets/loading.gif">
     </div>
-    <button v-on:click="goBack()">Go Back</button><br><br>
+    <button class='button' v-on:click="goBack()">Go Back</button><br><br>
     <div id="main">
       <div class="photoRow">
           <div v-for="photoLink in photoLinks" :key="photoLink" class="photoColumn">
@@ -143,5 +143,24 @@ img:hover {
   position: relative;
   transform: scale(1.5);
   z-index: 9;
+}
+
+.button {
+  background-color: #2196F3; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
 </style>
