@@ -7,7 +7,7 @@
           <input id="txtName" @input="addMessage" v-model="txtInput" type="text">
           <br>
           <br>
-          <button v-on:click="submitData()">Submit</button>
+          <button class='button' v-on:click="submitData()">Submit</button>
           <p>{{ valid[0] }}</p>
       </div>
   </div>
@@ -67,24 +67,43 @@ export default {
 </script>
 
 <style scoped>
-    body {
-    font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
-    text-rendering: optimizelegibility;
-    -moz-osx-font-smoothing: grayscale;
-    -moz-text-size-adjust: none;
-    }
+body {
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+  text-rendering: optimizelegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-text-size-adjust: none;
+}
 
-    h1,.muted {
-    color: #2c3e5099;
-    }
+h1,.muted {
+  color: #2c3e5099;
+}
 
-    h1 {
-    font-size: 26px;
-    font-weight: 600;
-    }
+h1 {
+  font-size: 26px;
+  font-weight: 600;
+}
 
-    #select {
-    max-width: 30em;
-    margin: 1em auto;
-    }
+#select {
+  max-width: 30em;
+  margin: 1em auto;
+}
+
+.button {
+  background-color: #2196F3; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
 </style>
