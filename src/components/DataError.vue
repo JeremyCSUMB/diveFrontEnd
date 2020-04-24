@@ -1,10 +1,10 @@
 <template>
   <div>
       <div id="error">
-          <h5>Missing data in annotations:</h5>
+          <h5><b>Missing data in annotations:</b></h5>
           <p>Timestamps: {{timeData[0]}}</p>
           <p>Ancillary: {{ancData[0]}}</p>
-          <h5>Percentage covered in dive:</h5>
+          <h5><b>Percentage covered in dive:</b></h5>
           <p>Navigation: {{navData[0]}}%</p>
           <p>CTD: {{ctdData[0]}}%</p>
           <p>Camera HD: {{camhdData[0]}}%</p>

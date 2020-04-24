@@ -3,7 +3,7 @@
     <div id='topSection' class='grid-container-top'>
       <div class='grid-item'>
         <div id='diveInfo' v-if = 'diveInfo !== null' class='topSectionElement'>
-          <h5>Dive Information</h5>
+          <h5><b>Dive Information</b></h5>
           <b>Chief Scientist:</b> {{diveInfo.chiefScientist}}<br><br>
           <b>Accomplishments:</b> {{diveInfo.briefAccomplishments}}<br><br>
           <b>Start Date:</b> {{diveInfo.startDate}}<br><br>
@@ -16,6 +16,28 @@
       </div>
       <div class='grid-item'>
         <DataError class='topSectionElement'/>
+      </div>
+    </div>
+
+    <br>
+
+    <div class='grid-container-middle'>
+      <div class='grid-item' id='notes'>
+        <h5><b>Lab Notes</b></h5>
+        <b>Annotators:</b> {{labNotes.annotators}}<br><br>
+        <b>Date Annotated:</b> {{labNotes.dateAnnotated}}<br><br>
+        <b>Application:</b> {{labNotes.application}}<br><br>
+        <b>Camera:</b> {{labNotes.camera}}<br><br>
+        <b>Dive Number:</b> {{labNotes.diveNumber}}<br><br>
+        <b>High Definition Tape Count:</b> {{labNotes.highDefTapeCount}}<br><br>
+        <b>Standard Definition Tape Count:</b> {{labNotes.standardDefTapeCount}}<br><br>
+        <b>Hours Annotated:</b> {{labNotes.hoursAnnotated}}<br><br>
+        <b>Hours of Video:</b> {{labNotes.hoursOfVideo}}<br><br>
+        <b>Video Segment Count:</b> {{labNotes.videoSegmentCount}}<br><br>
+        <b>Mission:</b> {{labNotes.mission}}<br><br>
+        <b>Notes:</b> {{labNotes.notes}}<br><br>
+        <b>ROV Name:</b> {{labNotes.rovName}}<br><br>
+        <b>Style:</b> {{labNotes.style}}<br><br>
       </div>
     </div>
 
@@ -74,19 +96,22 @@ export default {
       diveInfo: null,
       ctdData: null,
       latsAndLongs: null,
-      togglestatus: false
+      togglestatus: false,
+      labNotes: null
     }
   },
   created: function () {
     axios.all([
       axios.get('http://localhost:8080/dive/getgeneraldiveinformation/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
       axios.get('http://localhost:8080/dive/getctd/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
-      axios.get('http://localhost:8080/dive/getlatsandlongs/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
+      axios.get('http://localhost:8080/dive/getlatsandlongs/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber),
+      axios.get('http://localhost:8080/dive/getLabnotes/' + this.$route.params.rovName + '/' + this.$route.params.diveNumber)
     ])
-      .then(axios.spread((diveInfo, ctdData, latsAndLongs) => {
+      .then(axios.spread((diveInfo, ctdData, latsAndLongs, labNotes) => {
         this.diveInfo = JSON.parse(JSON.stringify(diveInfo.data))
         this.ctdData = JSON.parse(JSON.stringify(ctdData.data))
         this.latsAndLongs = JSON.parse(JSON.stringify(latsAndLongs.data))
+        this.labNotes = JSON.parse(JSON.stringify(labNotes.data))
 
         document.getElementById('ctdbutton').disabled = false
         document.getElementById('navbutton').disabled = false
@@ -258,10 +283,6 @@ export default {
   padding-top: 5%;
 }
 
-.aChart {
-  margin: auto;
-}
-
 #main {
   margin: 0 auto;
   padding-left: 100px;
@@ -269,11 +290,22 @@ export default {
   padding-bottom: 50px;
 }
 
+#notes {
+  padding-bottom: 2%;
+}
+
 .grid-container-top {
   display: grid;
   grid-template-columns: 50% 50%;
   background-color: #2196F3;
   padding: 10px;
+}
+
+.grid-container-middle {
+  display: grid;
+  background-color: #2196F3;
+  padding: 10px;
+  margin: auto;
 }
 
 .grid-container-bottom {
@@ -285,6 +317,7 @@ export default {
 }
 
 .grid-item {
+  padding-top: 3%;
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
   text-align: center;
